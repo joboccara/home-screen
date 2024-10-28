@@ -21,16 +21,7 @@ def scrape_rain_hour():
 
     try:
         driver.get(url)
-
-        wait = WebDriverWait(driver, 10)
-        ul_element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, ul_rain_data_class_name)))
-        wait.until(lambda d: len(d.find_elements(By.XPATH, f'//ul[@class="{ul_rain_data_class_name}"]/li')) == number_of_rain_data_points)
-
-        li_elements = ul_element.find_elements(By.TAG_NAME, "li")
-        for li in li_elements:
-            img = li.find_element(By.TAG_NAME, "img")
-            if img and img.get_attribute("alt"):
-                result["rain_labels"].append(img.get_attribute("alt"))
+        result["rain_labels"] = scrape_rain_labels_when_displayed(driver)
 
         div_time = driver.find_element(By.CLASS_NAME, div_class_name_containing_time)
         start_time_s = div_time.find_element(By.TAG_NAME, "p").text
@@ -38,6 +29,19 @@ def scrape_rain_hour():
     finally:
         driver.quit()
         return result
+
+def scrape_rain_labels_when_displayed(driver):
+    wait = WebDriverWait(driver, 10)
+    ul_element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, ul_rain_data_class_name)))
+    wait.until(lambda d: len(d.find_elements(By.XPATH, f'//ul[@class="{ul_rain_data_class_name}"]/li')) == number_of_rain_data_points)
+
+    labels = []
+    li_elements = ul_element.find_elements(By.TAG_NAME, "li")
+    for li in li_elements:
+        img = li.find_element(By.TAG_NAME, "img")
+        if img and img.get_attribute("alt"):
+            labels.append(img.get_attribute("alt"))
+    return labels
 
 
 print(scrape_rain_hour())
