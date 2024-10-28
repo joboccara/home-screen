@@ -22,8 +22,9 @@ def scrape_rain_hour():
 
     try:
         driver.get(URL)
-        result["rain_labels"] = scrape_rain_labels_when_displayed(driver)
-        result["start_time"] = scrape_start_time(driver)
+        rain_labels = scrape_rain_labels_when_displayed(driver)
+        start_time_label = scrape_start_time_label(driver)
+        result = parse_scraped_data(rain_labels, start_time_label)
     finally:
         driver.quit()
         return result
@@ -38,12 +39,15 @@ def scrape_rain_labels_when_displayed(driver):
     for li in li_elements:
         img = li.find_element(By.TAG_NAME, "img")
         if img and img.get_attribute("alt"):
-            labels.append(RAIN_LABELS_INTENSITY.get(img.get_attribute("alt")))
+            labels.append(img.get_attribute("alt"))
     return labels
 
-def scrape_start_time(driver):
-        div_time = driver.find_element(By.CLASS_NAME, DIV_CLASS_NAME_CONTAINING_TIME)
-        start_time_s = div_time.find_element(By.TAG_NAME, "p").text
-        return datetime.strptime(start_time_s, START_TIME_FORMAT)
+def scrape_start_time_label(driver):
+    div_time = driver.find_element(By.CLASS_NAME, DIV_CLASS_NAME_CONTAINING_TIME)
+    return div_time.find_element(By.TAG_NAME, "p").text
+
+def parse_scraped_data(rain_labels, start_time_label):
+    return { "start_time": datetime.strptime(start_time_label, START_TIME_FORMAT),
+            "rain_intensities": [RAIN_LABELS_INTENSITY.get(rain_label) for rain_label in rain_labels] }
 
 print(scrape_rain_hour())
