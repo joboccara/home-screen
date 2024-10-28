@@ -19,4 +19,4 @@ def test_unknown_label_throws_exception():
 def test_invalid_start_time_format_throws_exception():
   rain_labels = ['Pluie forte', 'Pas de pluie', 'Pas de pluie', 'Pluie modérée', 'Pluie faible', 'Pluie forte', 'Pas de pluie', 'Pas de pluie', 'Pluie faible']
   with pytest.raises(Exception):
-    parse_scraped_data(rain_labels, "14: 52")
+    parse_scraped_data("14: 52", rain_labels)

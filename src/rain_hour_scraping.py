@@ -24,7 +24,7 @@ def scrape_rain_hour():
         driver.get(URL)
         rain_labels = scrape_rain_labels_when_displayed(driver)
         start_time_label = scrape_start_time_label(driver)
-        result = parse_scraped_data(rain_labels, start_time_label)
+        result = parse_scraped_data(start_time_label, rain_labels)
     except Exception:
         result = {"error": True}
     finally:
@@ -48,7 +48,7 @@ def scrape_start_time_label(driver):
     div_time = driver.find_element(By.CLASS_NAME, DIV_CLASS_NAME_CONTAINING_TIME)
     return div_time.find_element(By.TAG_NAME, "p").text
 
-def parse_scraped_data(rain_labels, start_time_label):
+def parse_scraped_data(start_time_label, rain_labels):
     return { "start_time": datetime.strptime(start_time_label, START_TIME_FORMAT),
             "rain_intensities": parse_rain_labels(rain_labels) }
 
