@@ -53,6 +53,8 @@ def parse_scraped_data(rain_labels, start_time_label):
             "rain_intensities": parse_rain_labels(rain_labels) }
 
 def parse_rain_labels(rain_labels):
+    if (any(label not in RAIN_LABELS_INTENSITY for label in rain_labels)):
+        raise Exception("Unknown rain label")
     return [RAIN_LABELS_INTENSITY.get(rain_label) for rain_label in rain_labels]
 
 print(scrape_rain_hour())
