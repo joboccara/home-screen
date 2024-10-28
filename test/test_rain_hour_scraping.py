@@ -5,7 +5,7 @@ import sys
 project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_dir)
 
-from src.rain_hour_scraping import parse_rain_labels
+from src.rain_hour_scraping import parse_rain_labels, parse_scraped_data
 
 def test_rain_labels_are_mapped():
   rain_labels = ['Pluie forte', 'Pas de pluie', 'Pas de pluie', 'Pluie modérée', 'Pluie faible', 'Pluie forte', 'Pas de pluie', 'Pas de pluie', 'Pluie faible']
@@ -15,3 +15,8 @@ def test_unknown_label_throws_exception():
   rain_labels = ['XXXXXXX', 'Pas de pluie', 'Pas de pluie', 'Pluie modérée', 'Pluie faible', 'Pluie forte', 'Pas de pluie', 'Pas de pluie', 'Pluie faible']
   with pytest.raises(Exception):
     parse_rain_labels(rain_labels)
+
+def test_invalid_start_time_format_throws_exception():
+  rain_labels = ['Pluie forte', 'Pas de pluie', 'Pas de pluie', 'Pluie modérée', 'Pluie faible', 'Pluie forte', 'Pas de pluie', 'Pas de pluie', 'Pluie faible']
+  with pytest.raises(Exception):
+    parse_scraped_data(rain_labels, "14: 52")
