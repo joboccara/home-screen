@@ -25,6 +25,8 @@ def scrape_rain_hour():
         rain_labels = scrape_rain_labels_when_displayed(driver)
         start_time_label = scrape_start_time_label(driver)
         result = parse_scraped_data(rain_labels, start_time_label)
+    except Exception:
+        result = {"error": True}
     finally:
         driver.quit()
         return result
@@ -48,6 +50,9 @@ def scrape_start_time_label(driver):
 
 def parse_scraped_data(rain_labels, start_time_label):
     return { "start_time": datetime.strptime(start_time_label, START_TIME_FORMAT),
-            "rain_intensities": [RAIN_LABELS_INTENSITY.get(rain_label) for rain_label in rain_labels] }
+            "rain_intensities": parse_rain_labels(rain_labels) }
+
+def parse_rain_labels(rain_labels):
+    return [RAIN_LABELS_INTENSITY.get(rain_label) for rain_label in rain_labels]
 
 print(scrape_rain_hour())
