@@ -9,6 +9,7 @@ ul_rain_data_class_name = 'rain-data'
 number_of_rain_data_points = 9
 div_class_name_containing_time = 'time'
 start_time_format =  "%H : %M"
+rain_labels_intensity = {"Pas de pluie": 0, "Pluie faible": 1, "Pluie modérée": 2, "Pluie forte": 3}
 
 def scrape_rain_hour():
     options = webdriver.ChromeOptions()
@@ -17,15 +18,12 @@ def scrape_rain_hour():
     options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(options=options)
 
-    result = { "rain_labels": [] }
+    result = {}
 
     try:
         driver.get(url)
         result["rain_labels"] = scrape_rain_labels_when_displayed(driver)
-
-        div_time = driver.find_element(By.CLASS_NAME, div_class_name_containing_time)
-        start_time_s = div_time.find_element(By.TAG_NAME, "p").text
-        result["start_time"] = datetime.strptime(start_time_s, start_time_format)
+        result["start_time"] = scrape_start_time(driver)
     finally:
         driver.quit()
         return result
@@ -40,8 +38,12 @@ def scrape_rain_labels_when_displayed(driver):
     for li in li_elements:
         img = li.find_element(By.TAG_NAME, "img")
         if img and img.get_attribute("alt"):
-            labels.append(img.get_attribute("alt"))
+            labels.append(rain_labels_intensity.get(img.get_attribute("alt")))
     return labels
 
+def scrape_start_time(driver):
+        div_time = driver.find_element(By.CLASS_NAME, div_class_name_containing_time)
+        start_time_s = div_time.find_element(By.TAG_NAME, "p").text
+        return datetime.strptime(start_time_s, start_time_format)
 
 print(scrape_rain_hour())
