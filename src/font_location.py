@@ -1,0 +1,1 @@
+FONT_LOCATION = '/System/Library/Fonts/Helvetica.ttc'
