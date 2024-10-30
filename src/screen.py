@@ -6,7 +6,7 @@ from PIL import Image
 SCREEN_WIDTH = 480
 SCREEN_HEIGHT = 800
 
-def generate_screen_image():
+def generate_screen_image(api_access):
     image = Image.new('1', (SCREEN_WIDTH, SCREEN_HEIGHT), 255)
     date_time_widget = DateTimeWidget()
     date_time_x = SCREEN_WIDTH / 2 - date_time_widget.width() / 2
@@ -19,5 +19,5 @@ def generate_screen_image():
     today_in_history_x = today_in_history_margin
     today_in_history_y = date_time_y + date_time_widget.height() + spacing
     today_in_history_width = SCREEN_WIDTH - 2 * today_in_history_margin
-    TodayInHistoryWidget().draw(Pen(image, (today_in_history_x, today_in_history_y)), today_in_history_width)
+    TodayInHistoryWidget(api_access).draw(Pen(image, (today_in_history_x, today_in_history_y)), today_in_history_width)
     return image
