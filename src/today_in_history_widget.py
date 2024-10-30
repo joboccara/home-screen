@@ -23,7 +23,7 @@ def write_wrapped(pen, offset, text, font, max_width):
     for index, line in enumerate(wrap_text_to_lines(text, font, max_width)):
         line_height = textheight(line, font) + line_spacing
         line_y = index * line_height
-        pen.text((offset[0], line_y + offset[1]), line, font)
+        pen.write((offset[0], line_y + offset[1]), line, font)
 
 class TodayInHistoryWidget:
     def draw(self, pen, width):
@@ -33,7 +33,7 @@ class TodayInHistoryWidget:
         title_width, title_height = textsize(title, title_font)
         title_x = width / 2 - title_width / 2
         title_y = 0
-        pen.text((title_x, title_y), title, title_font)
+        pen.write((title_x, title_y), title, title_font)
         
         spacing = 10
  

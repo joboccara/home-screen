@@ -16,11 +16,11 @@ class DateTimeWidget:
 
     def draw(self, pen):
         time_x, time_y = 0, 0
-        pen.text((time_x, time_y), self.time_string, self.time_font)
+        pen.write((time_x, time_y), self.time_string, self.time_font)
 
         date_x = time_x + self.time_width / 2 - self.date_width / 2
         date_y = self.time_height + self.SPACING
-        pen.text((date_x, date_y), self.date_string, self.date_font)
+        pen.write((date_x, date_y), self.date_string, self.date_font)
 
     def width(self):
         return max(self.time_width, self.date_width)
