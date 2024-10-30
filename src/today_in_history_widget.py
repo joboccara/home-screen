@@ -29,8 +29,7 @@ class TodayInHistoryWidget:
         content_x = 0
         content_y = title_y + title_height + spacing
         content_font = ImageFont.truetype(FONT_LOCATION, 15)
-        pen.write_wrapped(pen,
-                        (content_x, content_y),
-                        fact["event"],
-                        content_font,
-                        width)
+        pen.write_wrapped((content_x, content_y),
+                          fact["event"],
+                          content_font,
+                          width)
