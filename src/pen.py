@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw
+from PIL import ImageDraw
 from font_utils import line_spacing, textheight, wrap_text_to_lines
 
 class Pen:
@@ -16,5 +16,5 @@ class Pen:
             line_y = index * line_height
             self.write((offset[0], line_y + offset[1]), line, font)
     
-    def draw_picture(self, offset, filepath, width, height):
-        self.image.paste(Image.open(filepath).resize((width, height)), (self.offset[0] + offset[0], self.offset[1] + offset[1]))
+    def draw_picture(self, offset, image):
+        self.image.paste(image, (self.offset[0] + offset[0], self.offset[1] + offset[1]))
