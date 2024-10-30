@@ -3,6 +3,9 @@ from pen import Pen
 from PIL import Image
 
 def generate_screen_image():
-    image = Image.new('1', (480, 800), 255)
-    DateTimeWidget().draw(Pen(image, (100, 50)))
+    SCREEN_WIDTH = 480
+    SCREEN_HEIGHT = 800
+    image = Image.new('1', (SCREEN_WIDTH, SCREEN_HEIGHT), 255)
+    date_time_x = SCREEN_WIDTH / 2 - DateTimeWidget().width() / 2
+    DateTimeWidget().draw(Pen(image, (date_time_x, 50)))
     return image
