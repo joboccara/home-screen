@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -10,6 +10,7 @@ NUMBER_OF_RAIN_DATA_POINTS = 9
 DIV_CLASS_NAME_CONTAINING_TIME = 'time'
 START_TIME_FORMAT =  "%H : %M"
 RAIN_LABELS_INTENSITY = {"Pas de pluie": 0, "Pluie faible": 1, "Pluie modérée": 2, "Pluie forte": 3}
+INTERVALS_IN_MINUTES = [0, 5, 10, 15, 20, 25, 30, 40, 50]
 
 def scrape_rain_hour():
     options = webdriver.ChromeOptions()
@@ -49,8 +50,13 @@ def scrape_start_time_label(driver):
     return div_time.find_element(By.TAG_NAME, "p").text
 
 def parse_scraped_data(start_time_label, rain_labels):
-    return { "start_time": datetime.strptime(start_time_label, START_TIME_FORMAT),
-            "rain_intensities": parse_rain_labels(rain_labels) }
+    result = {}
+    rain_intensities = parse_rain_labels(rain_labels)
+    start_time = datetime.strptime(start_time_label, START_TIME_FORMAT)
+    for index, interval_in_minutes in enumerate(INTERVALS_IN_MINUTES):
+        time = start_time + timedelta(minutes=interval_in_minutes)
+        result[time] = rain_intensities[index]
+    return result
 
 def parse_rain_labels(rain_labels):
     if (any(label not in RAIN_LABELS_INTENSITY for label in rain_labels)):
