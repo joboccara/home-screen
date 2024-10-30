@@ -37,11 +37,6 @@ class RainHourWidget:
             x = self.minute_label_x(index, minute_label, minutes_font)
             y = offset_y
             pen.write((x, y), minute_label, minutes_font)
-        # first_datetime = next(iter(rain_intensity_by_datetime.keys()))
-        # first_label_minutes_x = self.minute_label_x(0, first_datetime.strftime("%M"), minutes_font)
-        # first_label_hour = f"{first_datetime.strftime("%H")}:"
-        # first_label_hour_x = first_label_minutes_x - text_width(first_label_hour, minutes_font)
-        # pen.write((first_label_hour_x, offset_y), first_label_hour, minutes_font)
 
     def minute_label_x(self, index, minute_label, minutes_font):
         return index * (self.ICON_SIZE + self.ICON_SPACING) + self.ICON_SIZE / 2 - text_width(minute_label, minutes_font) / 2
