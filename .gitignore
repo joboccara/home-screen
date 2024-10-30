@@ -1,4 +1,5 @@
 .venv/
 __pycache__
-e-paper/
 src/test_script.py
+src/rpi_launch.py
+dependencies/
