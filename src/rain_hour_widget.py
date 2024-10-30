@@ -10,10 +10,14 @@ class RainHourWidget:
 
     def draw(self, pen):
         rain_intensity_by_datetime = self._fetch_rain_intensity_by_datetime()
+        self._draw_rain_images(pen, rain_intensity_by_datetime, offset_x=20)
+        self._draw_time_labels(pen, rain_intensity_by_datetime, offset_y=self.ICON_SIZE + self.ICON_SPACING)
+
+    def _draw_rain_images(self, pen, rain_intensity_by_datetime, offset_x):
         light_rain, medium_rain, heavy_rain = self._rain_images()
         dash_font = ImageFont.truetype(FONT_LOCATION, 15)
-        for index, (interval_time, rain_intensity) in enumerate(rain_intensity_by_datetime.items()):
-            x = (self.ICON_SIZE + self.ICON_SPACING) * index
+        for index, rain_intensity in enumerate(rain_intensity_by_datetime.values()):
+            x = offset_x + (self.ICON_SIZE + self.ICON_SPACING) * index
             y = 0
             match rain_intensity:
                 case 0:
@@ -26,6 +30,14 @@ class RainHourWidget:
                     pen.draw_picture((x, y), medium_rain)
                 case 3:
                     pen.draw_picture((x, y), heavy_rain)
+
+    def _draw_time_labels(self, pen, rain_intensity_by_datetime, offset_y):
+       minutes_font = ImageFont.truetype(FONT_LOCATION, 10)
+       for index, datetime in enumerate(rain_intensity_by_datetime.keys()):
+           minute_label = datetime.strftime("%M")
+           x = 20 + index * self.ICON_SIZE + self.ICON_SIZE / 2 - text_width(minute_label, minutes_font) / 2
+           y = offset_y
+           pen.write((x, y), minute_label, minutes_font)
 
     def _rain_images(self):
         current_path = os.path.dirname(os.path.abspath(__file__))
