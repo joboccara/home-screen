@@ -3,8 +3,8 @@ import requests
 
 class ApiAccess:
     def get(self, url, headers):
-        reponse = requests.get(url, headers)
-        return json.loads(reponse.text)
+        response = requests.get(url, headers)
+        return json.loads(response.text)
 
 class FakeApiAccess:
     def get(self, url, headers):
