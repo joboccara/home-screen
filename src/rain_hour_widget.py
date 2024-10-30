@@ -1,7 +1,7 @@
 from datetime import datetime
 import os
 from PIL import Image, ImageFont
-from font_utils import FONT_LOCATION, textheight, textwidth
+from font_utils import FONT_LOCATION, text_height, text_width
 
 class RainHourWidget:
     ICON_SIZE = 25
@@ -17,8 +17,8 @@ class RainHourWidget:
             y = 0
             match rain_intensity:
                 case 0:
-                    dash_x = x + self.ICON_SIZE / 2 - textwidth(self.DASH, dash_font) / 2
-                    dash_y = y + self.ICON_SIZE / 2 - textheight(self.DASH, dash_font) / 2
+                    dash_x = x + self.ICON_SIZE / 2 - text_width(self.DASH, dash_font) / 2
+                    dash_y = y + self.ICON_SIZE / 2 - text_height(self.DASH, dash_font) / 2
                     pen.write((dash_x, dash_y), self.DASH, dash_font)
                 case 1:
                     pen.draw_picture((x, y), light_rain)

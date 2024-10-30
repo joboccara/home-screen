@@ -1,16 +1,16 @@
 from PIL import ImageFont
 from datetime import datetime
-from font_utils import FONT_LOCATION, textsize
+from font_utils import FONT_LOCATION, text_size
 
 class DateTimeWidget:
     def __init__(self):
         self.time_string = datetime.now().strftime("%H:%M")
         self.time_font = ImageFont.truetype(FONT_LOCATION, 60)
-        self.time_width, self.time_height = textsize(self.time_string, self.time_font)
+        self.time_width, self.time_height = text_size(self.time_string, self.time_font)
 
         self.date_string = datetime.now().strftime("%B, %d")
         self.date_font = ImageFont.truetype(FONT_LOCATION, 20)
-        self.date_width, self.date_height = textsize(self.date_string, self.date_font)
+        self.date_width, self.date_height = text_size(self.date_string, self.date_font)
 
     SPACING = 10
 

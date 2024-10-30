@@ -1,5 +1,5 @@
 from datetime import datetime
-from font_utils import FONT_LOCATION, textsize, textwidth, textheight, wrapped_text_height
+from font_utils import FONT_LOCATION, text_size, text_width, text_height, wrapped_text_height
 import os
 from PIL import ImageFont
 import random
@@ -15,7 +15,7 @@ class TodayInHistoryWidget:
             year = self.fact["year"]
             self.title = f"Today in {year}:"
             self.title_font = ImageFont.truetype(FONT_LOCATION, 15)
-            self.title_width, self.title_height = textsize(self.title, self.title_font)
+            self.title_width, self.title_height = text_size(self.title, self.title_font)
 
             self.content_font = ImageFont.truetype(FONT_LOCATION, 15)
             self.content = self.fact["event"]
