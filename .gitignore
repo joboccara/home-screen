@@ -1,3 +1,4 @@
 .venv/
 __pycache__
 e-paper/
+src/test_script.py
