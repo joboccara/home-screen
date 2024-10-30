@@ -23,8 +23,7 @@ def wrap_text_to_lines(text, font, max_width):
     current_line = ""
     for word in words:
         current_line_with_word = f"{current_line} {word}".strip()
-        this_seems_to_need_an_adjustment_i_dont_know_why = 20
-        if textwidth(current_line_with_word, font) <= max_width - this_seems_to_need_an_adjustment_i_dont_know_why:
+        if textwidth(current_line_with_word, font) <= max_width:
             current_line = current_line_with_word
         else:
             lines.append(current_line)
