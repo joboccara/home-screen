@@ -15,3 +15,28 @@ def textwidth(text, free_type_font):
 
 def textheight(text, free_type_font):
     return textsize(text, free_type_font)[1]
+
+def wrapped_text_height(text, free_type_font, max_width):
+    lines = wrap_text_to_lines(text, free_type_font, max_width)
+    nb_lines = len(lines)
+    if nb_lines == 0: return 0
+
+    return nb_lines * (textheight(lines[0], free_type_font) + line_spacing(free_type_font))
+
+def line_spacing(free_type_font):
+    return int(free_type_font.size / 3)
+
+def wrap_text_to_lines(text, free_type_font, max_width):
+    words = text.split()
+    lines = []
+    current_line = ""
+    for word in words:
+        current_line_with_word = f"{current_line} {word}".strip()
+        if textwidth(current_line_with_word, free_type_font) <= max_width:
+            current_line = current_line_with_word
+        else:
+            lines.append(current_line)
+            current_line = word
+    if current_line != "":
+        lines.append(current_line)
+    return lines

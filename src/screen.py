@@ -1,5 +1,6 @@
 from date_time_widget import DateTimeWidget
 from today_in_history_widget import TodayInHistoryWidget
+from rain_hour_widget import RainHourWidget
 from pen import Pen
 from PIL import Image
 
@@ -19,5 +20,11 @@ def generate_screen_image(api_access):
     today_in_history_x = today_in_history_margin
     today_in_history_y = date_time_y + date_time_widget.height() + spacing
     today_in_history_width = SCREEN_WIDTH - 2 * today_in_history_margin
-    TodayInHistoryWidget(api_access).draw(Pen(image, (today_in_history_x, today_in_history_y)), today_in_history_width)
+    today_in_history_widget = TodayInHistoryWidget(api_access, today_in_history_width)
+    today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
+
+    rain_hour_x = 50
+    rain_hour_y = today_in_history_y + today_in_history_widget.height() + spacing
+    RainHourWidget().draw(Pen(image, (rain_hour_x, rain_hour_y)))
+
     return image
