@@ -30,4 +30,4 @@ class NextDaysWeatherWidget:
 
     def width(self):
         return sum(list(map(lambda day_weather: len(day_weather["periods_weather"]) * (self.ICON_SIZE + self.ICON_SPACING),
-                            self.next_days_weather))) - self.ICON_SPACING
+                            self.next_days_weather))) - self.ICON_SPACING + len(self.next_days_weather) * self.DAY_SPACING - self.DAY_SPACING
