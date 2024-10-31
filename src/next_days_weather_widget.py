@@ -6,8 +6,8 @@ class NextDaysWeatherWidget:
     def __init__(self, api_access, weather_page_driver):
         self.next_days_weather = api_access.get_next_days_weather(weather_page_driver)
 
-    SPACING = 10
     ICON_SIZE = 40
+    SPACING = 10
 
     def draw(self, pen):
         current_y = 0
@@ -15,7 +15,6 @@ class NextDaysWeatherWidget:
         font = ImageFont.truetype(FONT_LOCATION, 15)
         period_height = text_height(self.next_days_weather[0]["periods_weather"][0]["period"], font)
         for day_weather in self.next_days_weather:
-            day_name = day_weather["day_name"]
             pen.write((current_x, current_y), day_weather["day_name"], font, center_x=self.ICON_SIZE)
             period_y = current_y + text_height(day_weather["day_name"], font) + self.SPACING
             for period_weather in day_weather["periods_weather"]:
@@ -25,3 +24,7 @@ class NextDaysWeatherWidget:
                 temperature_y = image_y + self.ICON_SIZE + self.SPACING
                 pen.write((current_x, temperature_y), period_weather["temperature"], font, center_x=self.ICON_SIZE)
                 current_x += self.ICON_SIZE + self.SPACING
+
+    def width(self):
+        return sum(list(map(lambda day_weather: len(day_weather["periods_weather"]) * (self.ICON_SIZE + self.SPACING),
+                            self.next_days_weather))) - self.SPACING

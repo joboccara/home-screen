@@ -33,7 +33,7 @@ def generate_screen_image(api_access):
         rain_hour_widget.draw(Pen(image, (rain_hour_x, rain_hour_y)))
 
         next_days_weather_widget = NextDaysWeatherWidget(api_access, weather_page_driver)
-        next_days_weather_x = 0
+        next_days_weather_x = SCREEN_WIDTH / 2 - next_days_weather_widget.width() / 2
         next_days_weather_y = rain_hour_y + rain_hour_widget.height() + spacing
         next_days_weather_widget.draw(Pen(image, (next_days_weather_x, next_days_weather_y)))
     finally:
