@@ -16,15 +16,12 @@ class NextDaysWeatherWidget:
         period_height = text_height(self.next_days_weather[0]["periods_weather"][0]["period"], font)
         for day_weather in self.next_days_weather:
             day_name = day_weather["day_name"]
-            day_name_x = current_x + self.ICON_SIZE / 2 - text_width(day_name, font) / 2
-            pen.write((day_name_x, current_y), day_weather["day_name"], font)
+            pen.write((current_x, current_y), day_weather["day_name"], font, center_x=self.ICON_SIZE)
             period_y = current_y + text_height(day_weather["day_name"], font) + self.SPACING
             for period_weather in day_weather["periods_weather"]:
-                period_x = current_x + self.ICON_SIZE / 2 - text_width(period_weather["period"], font) / 2
-                pen.write((period_x, period_y), period_weather["period"], font)
+                pen.write((current_x, period_y), period_weather["period"], font, center_x=self.ICON_SIZE)
                 image_y = period_y + period_height + self.SPACING
                 pen.draw_picture((current_x, image_y), period_weather["image"].resize((self.ICON_SIZE, self.ICON_SIZE)))
-                temperature_x = current_x + self.ICON_SIZE / 2 - text_width(period_weather["temperature"], font) / 2
                 temperature_y = image_y + self.ICON_SIZE + self.SPACING
-                pen.write((temperature_x, temperature_y), period_weather["temperature"], font)
+                pen.write((current_x, temperature_y), period_weather["temperature"], font, center_x=self.ICON_SIZE)
                 current_x += self.ICON_SIZE + self.SPACING

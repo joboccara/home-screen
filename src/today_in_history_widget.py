@@ -24,12 +24,10 @@ class TodayInHistoryWidget:
 
     def draw(self, pen):
         if self.fact is not None:
-            title_x = self.width / 2 - self.title_width / 2
-            title_y = 0
-            pen.write((title_x, title_y), self.title, self.title_font)
+            pen.write((0, 0), self.title, self.title_font, center_x=self.width)
             
             content_x = 0
-            content_y = title_y + self.title_height + self.SPACING
+            content_y = self.title_height + self.SPACING
             pen.write_wrapped((content_x, content_y),
                               self.content,
                               self.content_font,

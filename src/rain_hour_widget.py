@@ -19,14 +19,12 @@ class RainHourWidget:
         if self.rains_in_the_hour():
             title_height = text_height(self.TITLE, self.TITLE_FONT)
             title_x = 0
-            title_y = self.height() / 2 - title_height / 2
-            pen.write((title_x, title_y), self.TITLE, self.TITLE_FONT)
+            pen.write((0, 0), self.TITLE, self.TITLE_FONT, center_y=self.height())
             offset_x = text_width(self.TITLE, self.TITLE_FONT) + self.TITLE_SPACING
             self._draw_rain_images(pen, self.rain_intensity_by_datetime, offset_x)
             self._draw_time_labels(pen, self.rain_intensity_by_datetime, offset_x, offset_y=self.ICON_SIZE + self.ICON_SPACING)
         else:
-            no_rain_x = self.width() / 2 - text_width(self.NO_RAIN_LABEL, self.TITLE_FONT) / 2
-            pen.write((no_rain_x, 0), self.NO_RAIN_LABEL, self.TITLE_FONT)
+            pen.write((0, 0), self.NO_RAIN_LABEL, self.TITLE_FONT, center_x=self.width())
 
     def width(self):
         if self.rains_in_the_hour():
@@ -52,9 +50,7 @@ class RainHourWidget:
             x = offset_x + (self.ICON_SIZE + self.ICON_SPACING) * index
             y = 0
             if rain_intensity == 0:
-                dash_x = x + self.ICON_SIZE / 2 - text_width(self.DASH, dash_font) / 2
-                dash_y = y + self.ICON_SIZE / 2 - text_height(self.DASH, dash_font) / 2
-                pen.write((dash_x, dash_y), self.DASH, dash_font)
+                pen.write((x, y), self.DASH, dash_font, center_x=self.ICON_SIZE, center_y=self.ICON_SIZE)
             elif rain_intensity == 1:
                 pen.draw_picture((x, y), light_rain)
             elif rain_intensity == 2:
