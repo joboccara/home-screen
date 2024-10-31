@@ -18,7 +18,7 @@ def scrape_rain_hour():
     driver = get_driver(URL)
 
     try:
-        rain_labels = scrape_rain_labels_when_displayed(driver)
+        rain_labels = scrape_rain_labels(driver)
         start_time_label = scrape_start_time_label(driver)
         result = parse_scraped_data(start_time_label, rain_labels)
     except Exception:
@@ -44,7 +44,7 @@ def get_driver(url):
 
     return driver
 
-def scrape_rain_labels_when_displayed(driver):
+def scrape_rain_labels(driver):
     labels = []
     ul_element = driver.find_element(By.CLASS_NAME, UL_RAIN_DATA_CLASS_NAME)
     li_elements = ul_element.find_elements(By.TAG_NAME, "li")
