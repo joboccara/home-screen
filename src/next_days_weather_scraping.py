@@ -5,8 +5,8 @@ import requests
 from selenium.webdriver.common.by import By
 
 PERIOD_TRANSLATIONS = {
-    "Matin": "Morn.",
-    "Après-midi": "Aft.",
+    "Matin": "Morning",
+    "Après-midi": "Aftern.",
     "Soirée": "Evening"
 }
 
