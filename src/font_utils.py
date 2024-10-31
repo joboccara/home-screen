@@ -24,7 +24,7 @@ def wrapped_text_height(text, free_type_font, max_width):
     return nb_lines * (text_height(lines[0], free_type_font) + line_spacing(free_type_font))
 
 def line_spacing(free_type_font):
-    return int(free_type_font.size / 3)
+    return free_type_font.size / 3
 
 def wrap_text_to_lines(text, free_type_font, max_width):
     words = text.split()

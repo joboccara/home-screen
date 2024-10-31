@@ -8,10 +8,21 @@ class RainHourWidget:
     ICON_SPACING = 5
     DASH = "-"
 
+    def __init__(self, api_access):
+        self.rain_intensity_by_datetime = api_access.get_rain_intensity_by_datetime()
+
     def draw(self, pen):
-        rain_intensity_by_datetime = self._fetch_rain_intensity_by_datetime()
-        self._draw_rain_images(pen, rain_intensity_by_datetime)
-        self._draw_time_labels(pen, rain_intensity_by_datetime, offset_y=self.ICON_SIZE + self.ICON_SPACING)
+        if all(value == 0 for value in self.rain_intensity_by_datetime.values()):
+            no_rain_label = "No rain in the hour"
+            no_rain_font = ImageFont.truetype(FONT_LOCATION, 15)
+            no_rain_x = self.width() / 2 - text_width(no_rain_label, no_rain_font) / 2
+            pen.write((no_rain_x, 0), no_rain_label, no_rain_font)
+        else:
+            self._draw_rain_images(pen, self.rain_intensity_by_datetime)
+            self._draw_time_labels(pen, self.rain_intensity_by_datetime, offset_y=self.ICON_SIZE + self.ICON_SPACING)
+
+    def width(self):
+        return len(self.rain_intensity_by_datetime.items()) * (self.ICON_SIZE + self.ICON_SPACING) - self.ICON_SPACING
 
     def _draw_rain_images(self, pen, rain_intensity_by_datetime):
         light_rain, medium_rain, heavy_rain = self._rain_images()
@@ -50,16 +61,3 @@ class RainHourWidget:
         heavy_rain_path = os.path.join(current_path, "images/heavy-rain.png")
         heavy_rain = Image.open(heavy_rain_path).resize((self.ICON_SIZE, self.ICON_SIZE))
         return [light_rain, medium_rain, heavy_rain]
-
-    def _fetch_rain_intensity_by_datetime(self):
-        return {
-            datetime(1900, 1, 1, 18, 25): 3,
-            datetime(1900, 1, 1, 18, 30): 0,
-            datetime(1900, 1, 1, 18, 35): 0,
-            datetime(1900, 1, 1, 18, 40): 2,
-            datetime(1900, 1, 1, 18, 45): 1,
-            datetime(1900, 1, 1, 18, 50): 3,
-            datetime(1900, 1, 1, 18, 55): 0,
-            datetime(1900, 1, 1, 19, 5): 0,
-            datetime(1900, 1, 1, 19, 15): 1,
-        }

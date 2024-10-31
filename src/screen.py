@@ -23,8 +23,9 @@ def generate_screen_image(api_access):
     today_in_history_widget = TodayInHistoryWidget(api_access, today_in_history_width)
     today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
 
-    rain_hour_x = 50
+    rain_hour_widget = RainHourWidget(api_access)
+    rain_hour_x = SCREEN_WIDTH / 2 - rain_hour_widget.width() / 2
     rain_hour_y = today_in_history_y + today_in_history_widget.height() + spacing
-    RainHourWidget().draw(Pen(image, (rain_hour_x, rain_hour_y)))
+    rain_hour_widget.draw(Pen(image, (rain_hour_x, rain_hour_y)))
 
     return image
