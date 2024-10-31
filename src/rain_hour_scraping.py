@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import platform
 
 URL = "https://meteofrance.com/previsions-meteo-france/neuilly-sur-seine/92200"
 UL_RAIN_DATA_CLASS_NAME = 'rain-data'
@@ -17,7 +18,10 @@ def scrape_rain_hour():
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(options=options)
+    if platform.system() == 'Darwin':
+        driver = webdriver.Chrome(options=options)
+    else:
+        driver = webdriver.Chrome(options=options, service=webdriver.ChromeService('/usr/lib/chromium-browser/chromedriver'))
 
     result = {}
 
