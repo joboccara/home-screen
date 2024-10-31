@@ -2,6 +2,7 @@ from datetime import datetime
 import json
 import requests
 from rain_hour_scraping import scrape_rain_hour
+from next_days_weather_scraping import scrape_next_days_weather
 
 class ApiAccess:
     def get(self, url, headers):
@@ -11,6 +12,9 @@ class ApiAccess:
     def get_rain_intensity_by_datetime(self, driver):
         return scrape_rain_hour(driver)
 
+    def get_next_days_weather(self, driver):
+        return scrape_next_days_weather(driver)
+
 class FakeApiAccess:
     def get(self, url, headers):
         if url.startswith("https://api.api-ninjas.com/v1/historicalevents"):
@@ -19,7 +23,6 @@ class FakeApiAccess:
             return {}
 
     def get_rain_intensity_by_datetime(self, driver):
-        return scrape_rain_hour(driver)
         return {
             datetime(1900, 1, 1, 18, 25): 3,
             datetime(1900, 1, 1, 18, 30): 0,
@@ -31,3 +34,6 @@ class FakeApiAccess:
             datetime(1900, 1, 1, 19, 5): 0,
             datetime(1900, 1, 1, 19, 15): 1,
         }
+
+    def get_next_days_weather(self, driver):
+        return scrape_next_days_weather(driver)

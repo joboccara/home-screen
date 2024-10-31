@@ -7,22 +7,31 @@ class RainHourWidget:
     ICON_SIZE = 25
     ICON_SPACING = 5
     DASH = "-"
+    NO_RAIN_LABEL = "No rain in the hour"
+    NO_RAIN_FONT = ImageFont.truetype(FONT_LOCATION, 15)
 
     def __init__(self, api_access, weather_page_driver):
         self.rain_intensity_by_datetime = api_access.get_rain_intensity_by_datetime(weather_page_driver)
 
     def draw(self, pen):
-        if all(value == 0 for value in self.rain_intensity_by_datetime.values()):
-            no_rain_label = "No rain in the hour"
-            no_rain_font = ImageFont.truetype(FONT_LOCATION, 15)
-            no_rain_x = self.width() / 2 - text_width(no_rain_label, no_rain_font) / 2
-            pen.write((no_rain_x, 0), no_rain_label, no_rain_font)
+        if self.rains_in_the_hour():
+            no_rain_x = self.width() / 2 - text_width(self.NO_RAIN_LABEL, self.NO_RAIN_FONT) / 2
+            pen.write((no_rain_x, 0), self.NO_RAIN_LABEL, self.NO_RAIN_FONT)
         else:
             self._draw_rain_images(pen, self.rain_intensity_by_datetime)
             self._draw_time_labels(pen, self.rain_intensity_by_datetime, offset_y=self.ICON_SIZE + self.ICON_SPACING)
 
     def width(self):
         return len(self.rain_intensity_by_datetime.items()) * (self.ICON_SIZE + self.ICON_SPACING) - self.ICON_SPACING
+
+    def height(self):
+        if self.rains_in_the_hour():
+            return text_height(self.NO_RAIN_LABEL, self.NO_RAIN_FONT)
+        else:
+            return self.ICON_SIZE
+
+    def rains_in_the_hour(self):
+        return all(value == 0 for value in self.rain_intensity_by_datetime.values())
 
     def _draw_rain_images(self, pen, rain_intensity_by_datetime):
         light_rain, medium_rain, heavy_rain = self._rain_images()

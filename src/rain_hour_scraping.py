@@ -18,7 +18,6 @@ def scrape_rain_hour(driver):
     except Exception:
         result = {"error": True}
     finally:
-        driver.quit()
         return result
 
 def scrape_rain_labels(driver):
