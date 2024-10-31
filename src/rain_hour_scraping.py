@@ -1,11 +1,6 @@
 from datetime import datetime, timedelta
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import platform
 
-URL = "https://meteofrance.com/previsions-meteo-france/neuilly-sur-seine/92200"
 UL_RAIN_DATA_CLASS_NAME = 'rain-data'
 NUMBER_OF_RAIN_DATA_POINTS = 9
 DIV_CLASS_NAME_CONTAINING_TIME = 'time'
@@ -13,9 +8,8 @@ START_TIME_FORMAT =  "%H : %M"
 RAIN_LABELS_INTENSITY = {"Pas de pluie": 0, "Pluie faible": 1, "Pluie modérée": 2, "Pluie forte": 3}
 INTERVALS_IN_MINUTES = [0, 5, 10, 15, 20, 25, 30, 40, 50]
 
-def scrape_rain_hour():
+def scrape_rain_hour(driver):
     result = {}
-    driver = get_driver(URL)
 
     try:
         rain_labels = scrape_rain_labels(driver)
@@ -26,23 +20,6 @@ def scrape_rain_hour():
     finally:
         driver.quit()
         return result
-
-def get_driver(url):
-    options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    if platform.system() == 'Darwin':
-        driver = webdriver.Chrome(options=options)
-    else:
-        driver = webdriver.Chrome(options=options, service=webdriver.ChromeService('/usr/lib/chromium-browser/chromedriver'))
-
-    try:
-        driver.get(url)
-    except:
-        driver.quit()
-
-    return driver
 
 def scrape_rain_labels(driver):
     labels = []

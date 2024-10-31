@@ -8,8 +8,8 @@ class ApiAccess:
         response = requests.get(url, headers)
         return json.loads(response.text)
     
-    def get_rain_intensity_by_datetime(self):
-        return scrape_rain_hour()
+    def get_rain_intensity_by_datetime(self, driver):
+        return scrape_rain_hour(driver)
 
 class FakeApiAccess:
     def get(self, url, headers):
@@ -18,8 +18,8 @@ class FakeApiAccess:
         else:
             return {}
 
-    def get_rain_intensity_by_datetime(self):
-        return scrape_rain_hour()
+    def get_rain_intensity_by_datetime(self, driver):
+        return scrape_rain_hour(driver)
         return {
             datetime(1900, 1, 1, 18, 25): 3,
             datetime(1900, 1, 1, 18, 30): 0,

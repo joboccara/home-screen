@@ -8,8 +8,8 @@ class RainHourWidget:
     ICON_SPACING = 5
     DASH = "-"
 
-    def __init__(self, api_access):
-        self.rain_intensity_by_datetime = api_access.get_rain_intensity_by_datetime()
+    def __init__(self, api_access, weather_page_driver):
+        self.rain_intensity_by_datetime = api_access.get_rain_intensity_by_datetime(weather_page_driver)
 
     def draw(self, pen):
         if all(value == 0 for value in self.rain_intensity_by_datetime.values()):

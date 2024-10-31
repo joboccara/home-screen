@@ -3,6 +3,7 @@ from today_in_history_widget import TodayInHistoryWidget
 from rain_hour_widget import RainHourWidget
 from pen import Pen
 from PIL import Image
+from weather_page_driver import build_weather_page_driver
 
 SCREEN_WIDTH = 480
 SCREEN_HEIGHT = 800
@@ -23,7 +24,8 @@ def generate_screen_image(api_access):
     today_in_history_widget = TodayInHistoryWidget(api_access, today_in_history_width)
     today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
 
-    rain_hour_widget = RainHourWidget(api_access)
+    weather_page_driver = build_weather_page_driver()
+    rain_hour_widget = RainHourWidget(api_access, weather_page_driver)
     rain_hour_x = SCREEN_WIDTH / 2 - rain_hour_widget.width() / 2
     rain_hour_y = today_in_history_y + today_in_history_widget.height() + spacing
     rain_hour_widget.draw(Pen(image, (rain_hour_x, rain_hour_y)))
