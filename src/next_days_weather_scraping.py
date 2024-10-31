@@ -9,7 +9,7 @@ def scrape_next_days_weather(driver):
     return list(map(lambda day_li:
                     {
                         "day_name": day_li.find_element(By.TAG_NAME, "h4").text,
-                        "periods_weather": list(map(period_weather_from_li, periods_lis_from_day_li(day_li)))
+                        "periods_weather": list(map(period_weather_from_li, periods_lis_from_day_li(day_li)))[:-1] # remove night weather
                     },
                     next_days_lis))
 
