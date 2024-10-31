@@ -5,8 +5,8 @@ import requests
 from selenium.webdriver.common.by import By
 
 PERIOD_TRANSLATIONS = {
-    "Matin": "Morning",
-    "Après-midi": "Afternoon",
+    "Matin": "Morn.",
+    "Après-midi": "Aft.",
     "Soirée": "Evening"
 }
 
@@ -21,13 +21,21 @@ WEEK_DAYS_TRANSLATIONS = {
 }
 
 def scrape_next_days_weather(driver):
-    next_days_lis = driver.find_elements(By.CLASS_NAME, "day")
+    day1_day2_lis = driver.find_elements(By.CLASS_NAME, "day")
+    day1_day2 = parse_days_weather(day1_day2_lis)
+    tomorrow_link = driver.find_element(By.ID, "msc_tomorrow")
+    tomorrow_link.click()
+    day2_day3_lis = driver.find_elements(By.CLASS_NAME, "day")
+    day3 = parse_days_weather([day2_day3_lis[1]])
+    return day1_day2 + day3
+
+def parse_days_weather(days_lis):
     days_weather =  list(map(lambda day_li:
                     {
                         "day_name": translate_day_name(day_li.find_element(By.TAG_NAME, "h4").text),
                         "periods_weather": list(map(_period_weather_from_li, _periods_lis_from_day_li(day_li)))[:-1] # remove night weather
                     },
-                    next_days_lis))
+                    days_lis))
     return list(filter(lambda day_weather: len(day_weather["periods_weather"]) > 0, days_weather))
 
 def _periods_lis_from_day_li(day_li):
