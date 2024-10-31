@@ -16,7 +16,6 @@ INTERVALS_IN_MINUTES = [0, 5, 10, 15, 20, 25, 30, 40, 50]
 def scrape_rain_hour():
     result = {}
     driver = get_driver(URL)
-    wait_for_page_load(driver)
 
     try:
         rain_labels = scrape_rain_labels_when_displayed(driver)
@@ -44,11 +43,6 @@ def get_driver(url):
         driver.quit()
 
     return driver
-
-def wait_for_page_load(driver):
-    wait = WebDriverWait(driver, 10)
-    wait.until(EC.presence_of_element_located((By.CLASS_NAME, UL_RAIN_DATA_CLASS_NAME)))
-    wait.until(lambda d: len(d.find_elements(By.XPATH, f'//ul[@class="{UL_RAIN_DATA_CLASS_NAME}"]/li')) == NUMBER_OF_RAIN_DATA_POINTS)
 
 def scrape_rain_labels_when_displayed(driver):
     labels = []
