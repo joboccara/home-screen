@@ -19,6 +19,7 @@ class FakeApiAccess:
             return {}
 
     def get_rain_intensity_by_datetime(self):
+        return scrape_rain_hour()
         return {
             datetime(1900, 1, 1, 18, 25): 3,
             datetime(1900, 1, 1, 18, 30): 0,

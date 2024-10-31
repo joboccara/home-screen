@@ -14,19 +14,11 @@ RAIN_LABELS_INTENSITY = {"Pas de pluie": 0, "Pluie faible": 1, "Pluie modérée"
 INTERVALS_IN_MINUTES = [0, 5, 10, 15, 20, 25, 30, 40, 50]
 
 def scrape_rain_hour():
-    options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    if platform.system() == 'Darwin':
-        driver = webdriver.Chrome(options=options)
-    else:
-        driver = webdriver.Chrome(options=options, service=webdriver.ChromeService('/usr/lib/chromium-browser/chromedriver'))
-
     result = {}
+    driver = get_driver(URL)
+    wait_for_page_load(driver)
 
     try:
-        driver.get(URL)
         rain_labels = scrape_rain_labels_when_displayed(driver)
         start_time_label = scrape_start_time_label(driver)
         result = parse_scraped_data(start_time_label, rain_labels)
@@ -36,12 +28,31 @@ def scrape_rain_hour():
         driver.quit()
         return result
 
-def scrape_rain_labels_when_displayed(driver):
+def get_driver(url):
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    if platform.system() == 'Darwin':
+        driver = webdriver.Chrome(options=options)
+    else:
+        driver = webdriver.Chrome(options=options, service=webdriver.ChromeService('/usr/lib/chromium-browser/chromedriver'))
+
+    try:
+        driver.get(url)
+    except:
+        driver.quit()
+
+    return driver
+
+def wait_for_page_load(driver):
     wait = WebDriverWait(driver, 10)
-    ul_element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, UL_RAIN_DATA_CLASS_NAME)))
+    wait.until(EC.presence_of_element_located((By.CLASS_NAME, UL_RAIN_DATA_CLASS_NAME)))
     wait.until(lambda d: len(d.find_elements(By.XPATH, f'//ul[@class="{UL_RAIN_DATA_CLASS_NAME}"]/li')) == NUMBER_OF_RAIN_DATA_POINTS)
 
+def scrape_rain_labels_when_displayed(driver):
     labels = []
+    ul_element = driver.find_element(By.CLASS_NAME, UL_RAIN_DATA_CLASS_NAME)
     li_elements = ul_element.find_elements(By.TAG_NAME, "li")
     for li in li_elements:
         img = li.find_element(By.TAG_NAME, "img")
