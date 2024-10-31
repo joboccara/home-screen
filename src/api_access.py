@@ -19,6 +19,8 @@ class FakeApiAccess:
     def get(self, url, headers):
         if url.startswith("https://api.api-ninjas.com/v1/historicalevents"):
             return [{"year": 1440, "event": "Emperor Gratian elevates Flavius Theodosius at Sirmium to Augustus, and gives him authority over all the eastern provinces of the Roman Empire."}]
+        elif url == "https://api.api-ninjas.com/v1/chucknorris":
+            return { "joke": "The dinosaurs looked at Chuck Norris the wrong way once. You know what happened to them." } 
         else:
             return {}
 

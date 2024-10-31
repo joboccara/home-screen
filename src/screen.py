@@ -1,3 +1,4 @@
+from chuck_norris_widget import ChuckNorrisWidget
 from date_time_widget import DateTimeWidget
 from next_days_weather_widget import NextDaysWeatherWidget
 from today_in_history_widget import TodayInHistoryWidget
@@ -38,5 +39,11 @@ def generate_screen_image(api_access):
         next_days_weather_widget.draw(Pen(image, (next_days_weather_x, next_days_weather_y)))
     finally:
         weather_page_driver.quit()
+
+    chuck_norris_x = today_in_history_margin
+    chuck_norris_y = next_days_weather_y + next_days_weather_widget.height() + spacing
+    chuck_norris_width = SCREEN_WIDTH - 2 * today_in_history_margin
+    chuck_norris_widget = ChuckNorrisWidget(api_access, chuck_norris_width)
+    chuck_norris_widget.draw(Pen(image, (chuck_norris_x, chuck_norris_y)))
 
     return image
