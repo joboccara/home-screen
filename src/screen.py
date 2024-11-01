@@ -1,6 +1,7 @@
 from buses_times_widget import BusesTimesWidget
 from chuck_norris_widget import ChuckNorrisWidget
 from date_time_widget import DateTimeWidget
+from fact_widget import FactWidget
 from next_days_weather_widget import NextDaysWeatherWidget
 from today_in_history_widget import TodayInHistoryWidget
 from rain_hour_widget import RainHourWidget
@@ -51,4 +52,11 @@ def generate_screen_image(api_access):
     buses_times_x = SCREEN_WIDTH / 2 - buses_times_widget.width() / 2
     buses_times_y = chuck_norris_y + chuck_norris_widget.height() + spacing
     buses_times_widget.draw(Pen(image, (buses_times_x, buses_times_y)))
+
+    fact_x = today_in_history_margin
+    fact_y = buses_times_y + buses_times_widget.height() + spacing
+    fact_width = SCREEN_WIDTH - 2 * today_in_history_margin
+    fact_widget = FactWidget(api_access, fact_width)
+    fact_widget.draw(Pen(image, (fact_x, fact_y)))
+
     return image
