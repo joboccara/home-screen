@@ -7,9 +7,9 @@ import os
 import requests
 
 class BusesTimesWidget:
-    SPACING = 20
+    SPACING = 25
     LINE_DIRECTION_SPACING = 3
-    LINE_TIMES_SPACING = 10
+    LINE_TIMES_SPACING = 7
     TIMES_SPACING = 10
     LINE_FONT = ImageFont.truetype(FONT_LOCATION, 15)
     DIRECTION_FONT = ImageFont.truetype(FONT_LOCATION, 10)
@@ -66,19 +66,20 @@ class BusesTimesWidget:
         line_direction_height = line_height \
                                 + self.LINE_DIRECTION_SPACING \
                                 + text_height(bus_times["direction"], self.DIRECTION_FONT)
+        line_x = offset_x + text_width(bus_times["direction"], self.DIRECTION_FONT) - text_width(bus_times["line_number"], self.LINE_FONT)
         line_y = self.height() / 2 - line_direction_height / 2
-        pen.write((offset_x, line_y), bus_times["line_number"], self.LINE_FONT)
+        pen.write((line_x, line_y), bus_times["line_number"], self.LINE_FONT)
         
         direction_y = line_y + line_height + self.LINE_DIRECTION_SPACING
         pen.write((offset_x, direction_y), bus_times["direction"], self.DIRECTION_FONT)
 
-        current_x = offset_x + text_width(bus_times["line_number"], self.LINE_FONT) + self.LINE_TIMES_SPACING
+        current_x = offset_x + text_width(bus_times["direction"], self.DIRECTION_FONT) + self.LINE_TIMES_SPACING
         pen.write((current_x, 0), bus_times["times"][0], self.TIMES_FONT)
         second_time_y = text_height(bus_times["times"][1], self.TIMES_FONT) + self.TIMES_SPACING
         pen.write((current_x, second_time_y), bus_times["times"][1], self.TIMES_FONT)
 
     def _bus_times_width(self, bus_times):
-        return text_width(bus_times["line_number"], self.LINE_FONT) \
+        return text_width(bus_times["direction"], self.DIRECTION_FONT) \
             + self.LINE_TIMES_SPACING \
             + max(list(map(lambda time: text_width(time, self.TIMES_FONT), bus_times["times"])))
 
