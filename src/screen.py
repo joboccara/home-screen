@@ -1,3 +1,4 @@
+from buses_times_widget import BusesTimesWidget
 from chuck_norris_widget import ChuckNorrisWidget
 from date_time_widget import DateTimeWidget
 from next_days_weather_widget import NextDaysWeatherWidget
@@ -5,7 +6,7 @@ from today_in_history_widget import TodayInHistoryWidget
 from rain_hour_widget import RainHourWidget
 from pen import Pen
 from PIL import Image
-from weather_page_driver import build_weather_page_driver
+from webdrivers import build_weather_page_driver
 
 SCREEN_WIDTH = 480
 SCREEN_HEIGHT = 800
@@ -46,4 +47,8 @@ def generate_screen_image(api_access):
     chuck_norris_widget = ChuckNorrisWidget(api_access, chuck_norris_width)
     chuck_norris_widget.draw(Pen(image, (chuck_norris_x, chuck_norris_y)))
 
+    buses_times_widget = BusesTimesWidget()
+    buses_times_x = SCREEN_WIDTH / 2 - buses_times_widget.width() / 2
+    buses_times_y = chuck_norris_y + chuck_norris_widget.height() + spacing
+    buses_times_widget.draw(Pen(image, (buses_times_x, buses_times_y)))
     return image

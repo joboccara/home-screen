@@ -2,7 +2,6 @@ from datetime import datetime
 from font_utils import FONT_LOCATION, text_size, text_width, text_height, wrapped_text_height
 import os
 from PIL import ImageFont
-import random
 
 class ChuckNorrisWidget:
     def __init__(self, api_access, width) -> None:
@@ -21,5 +20,5 @@ class ChuckNorrisWidget:
                            self.width)
 
     def height(self):
-        return self.title_height + self.SPACING + wrapped_text_height(self.content, self.content_font, self.width)
+        return wrapped_text_height(self.content, self.content_font, self.width)
     

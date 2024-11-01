@@ -1,9 +1,16 @@
 import platform
 from selenium import webdriver
 
-URL = "https://meteofrance.com/previsions-meteo-france/neuilly-sur-seine/92200"
+WEATHER_URL = "https://meteofrance.com/previsions-meteo-france/neuilly-sur-seine/92200"
+BUSES_TIMES_URL = "https://www.bonjour-ratp.fr/arrets-bus/bineau-chateau+neuilly-sur-seine-92200/"
 
 def build_weather_page_driver():
+    return build_driver(WEATHER_URL)
+
+def build_buses_times_page_driver():
+    return build_driver(BUSES_TIMES_URL)
+
+def build_driver(url):
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -14,7 +21,7 @@ def build_weather_page_driver():
         driver = webdriver.Chrome(options=options, service=webdriver.ChromeService('/usr/lib/chromium-browser/chromedriver'))
 
     try:
-        driver.get(URL)
+        driver.get(url)
     except:
         driver.quit()
 
