@@ -1,8 +1,7 @@
 from PIL import ImageFont
 from font_utils import FONT_LOCATION, text_height, text_width
-from next_days_weather_scraping import scrape_next_days_weather
 
-class NextDaysWeatherWidget:
+class WeatherWidget:
     def __init__(self, api_access, next_days_weather):
         self.next_days_weather = next_days_weather
 

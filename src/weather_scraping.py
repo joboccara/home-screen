@@ -20,7 +20,7 @@ WEEK_DAYS_TRANSLATIONS = {
     "DIMANCHE": "Sun"
 }
 
-def scrape_next_days_weather(driver):
+def scrape_weather(driver):
     day1_day2_lis = driver.find_elements(By.CLASS_NAME, "day")
     day1_day2 = parse_days_weather(day1_day2_lis)
     tomorrow_link = driver.find_element(By.ID, "msc_tomorrow")

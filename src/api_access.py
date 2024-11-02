@@ -2,7 +2,7 @@ from datetime import datetime
 import json
 import requests
 from rain_hour_scraping import scrape_rain_hour
-from next_days_weather_scraping import scrape_next_days_weather
+from weather_scraping import scrape_weather
 
 class ApiAccess:
     def get(self, url, headers):
@@ -13,7 +13,7 @@ class ApiAccess:
         return scrape_rain_hour(driver)
 
     def get_next_days_weather(self, driver):
-        return scrape_next_days_weather(driver)
+        return scrape_weather(driver)
 
 class FakeApiAccess:
     def get(self, url, headers):
@@ -40,4 +40,4 @@ class FakeApiAccess:
         }
 
     def get_next_days_weather(self, driver):
-        return scrape_next_days_weather(driver)
+        return scrape_weather(driver)

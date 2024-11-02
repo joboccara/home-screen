@@ -2,7 +2,7 @@ from buses_times_widget import BusesTimesWidget
 from chuck_norris_widget import ChuckNorrisWidget
 from date_time_widget import DateTimeWidget
 from fact_widget import FactWidget
-from next_days_weather_widget import NextDaysWeatherWidget
+from weather_widget import WeatherWidget
 from today_in_history_widget import TodayInHistoryWidget
 from rain_hour_widget import RainHourWidget
 from pen import Pen
@@ -36,7 +36,7 @@ def generate_screen_image(api_access):
         rain_hour_y = today_in_history_y + today_in_history_widget.height() + spacing
         rain_hour_widget.draw(Pen(image, (rain_hour_x, rain_hour_y)))
 
-        next_days_weather_widget = NextDaysWeatherWidget(api_access, next_days_weather)
+        next_days_weather_widget = WeatherWidget(api_access, next_days_weather)
         next_days_weather_x = SCREEN_WIDTH / 2 - next_days_weather_widget.width() / 2
         next_days_weather_y = rain_hour_y + rain_hour_widget.height() + spacing
         next_days_weather_widget.draw(Pen(image, (next_days_weather_x, next_days_weather_y)))
