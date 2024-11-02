@@ -4,19 +4,23 @@ from font_utils import FONT_LOCATION, text_height, text_width
 class WeatherWidget:
     def __init__(self, api_access, next_days_weather):
         self.next_days_weather = next_days_weather
+        self.display_day_name = len(self.next_days_weather) > 1
 
-    ICON_SIZE = 40
-    ICON_SPACING = 10
+    ICON_SIZE = 70
+    ICON_SPACING = 5
     DAY_SPACING = 10
-    PERIODS_FONT = ImageFont.truetype(FONT_LOCATION, 12)
-    TEMPERATURE_FONT = ImageFont.truetype(FONT_LOCATION, 15)
+    PERIODS_FONT = ImageFont.truetype(FONT_LOCATION, 15)
+    TEMPERATURE_FONT = ImageFont.truetype(FONT_LOCATION, 20)
 
     def draw(self, pen):
         current_y = 0
         current_x = 0
         for day_weather in self.next_days_weather:
-            pen.write((current_x, current_y), day_weather["day_name"], self.PERIODS_FONT, center_x=self.ICON_SIZE)
-            period_y = current_y + text_height(day_weather["day_name"], self.PERIODS_FONT) + self.ICON_SPACING
+            if self.display_day_name:
+                pen.write((current_x, current_y), day_weather["day_name"], self.PERIODS_FONT, center_x=self.ICON_SIZE)
+                period_y = current_y + text_height(day_weather["day_name"], self.PERIODS_FONT) + self.ICON_SPACING
+            else:
+                period_y = 0
             for period_weather in day_weather["periods_weather"]:
                 pen.write((current_x, period_y), period_weather["period"], self.PERIODS_FONT, center_x=self.ICON_SIZE)
                 image_y = period_y + self._period_height() + self.ICON_SPACING
@@ -31,7 +35,7 @@ class WeatherWidget:
                             self.next_days_weather))) - self.ICON_SPACING + len(self.next_days_weather) * self.DAY_SPACING - self.DAY_SPACING
 
     def height(self):
-        return self._day_name_height() + self.ICON_SPACING + \
+        return (self._day_name_height() + self.ICON_SPACING if self.display_day_name else 0) + \
                self._period_height() + self.ICON_SPACING + \
                self.ICON_SIZE + self.ICON_SPACING + self._temperature_height()
 

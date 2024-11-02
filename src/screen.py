@@ -14,7 +14,7 @@ SCREEN_HEIGHT = 800
 
 def generate_screen_image(api_access):
     image = Image.new('1', (SCREEN_WIDTH, SCREEN_HEIGHT), 255)
-    spacing = 50
+    spacing = 45
 
     weather_page_driver = build_weather_page_driver()
     try:
@@ -33,7 +33,7 @@ def generate_screen_image(api_access):
 
         today_in_history_margin = 10
         today_in_history_x = today_in_history_margin
-        today_in_history_y = date_time_y + date_time_widget.height() + spacing
+        today_in_history_y = max(date_time_y + date_time_widget.height(), todays_weather_y + todays_weather_widget.height()) + spacing
         today_in_history_width = SCREEN_WIDTH - 2 * today_in_history_margin
         today_in_history_widget = TodayInHistoryWidget(api_access, today_in_history_width)
         today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
