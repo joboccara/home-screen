@@ -12,7 +12,7 @@ class ApiAccess:
     def get_rain_intensity_by_datetime(self, driver):
         return scrape_rain_hour(driver)
 
-    def get_next_days_weather(self, driver):
+    def get_weather(self, driver):
         return scrape_weather(driver)
 
 class FakeApiAccess:
@@ -39,5 +39,5 @@ class FakeApiAccess:
             datetime(1900, 1, 1, 19, 15): 1,
         }
 
-    def get_next_days_weather(self, driver):
+    def get_weather(self, driver):
         return scrape_weather(driver)
