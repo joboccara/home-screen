@@ -35,8 +35,7 @@ class BusesTimesWidget:
             line_passages = list(filter(lambda passage: passage["MonitoredVehicleJourney"]["MonitoredCall"]["DestinationDisplay"][0]["value"] == direction, bus_stop_passages))
             times = list(map(lambda passage: passage["MonitoredVehicleJourney"]["MonitoredCall"]["ExpectedDepartureTime"], line_passages))
             first_time_label = self._time_s_to_minutes_label(times[0])
-            if "CallNote" in line_passages[0]["MonitoredVehicleJourney"]["MonitoredCall"].keys() and \
-              line_passages[0]["MonitoredVehicleJourney"]["MonitoredCall"]["CallNote"][0]["value"] == "Dernier BUS":
+            if len(line_passages) == 1:
                 second_time_label = "Last bus"
             else:
                 second_time_label = self._time_s_to_minutes_label(times[1])
