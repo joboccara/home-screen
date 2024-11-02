@@ -21,14 +21,14 @@ def generate_screen_image(api_access):
         weather = api_access.get_weather(weather_page_driver)
         todays_weather = weather[0]
         todays_weather_widget = WeatherWidget(api_access, [todays_weather])
+        todays_weather_y = 50
 
         date_time_widget = DateTimeWidget()
         date_time_x = SCREEN_WIDTH / 2 - (date_time_widget.width() + spacing + todays_weather_widget.width()) / 2
-        date_time_y = 50
+        date_time_y = todays_weather_y + todays_weather_widget.height() / 2 - date_time_widget.height() / 2
         date_time_widget.draw(Pen(image, (date_time_x, date_time_y)))
 
         todays_weather_x = date_time_x + date_time_widget.width() + spacing
-        todays_weather_y = 50
         todays_weather_widget.draw(Pen(image, (todays_weather_x, todays_weather_y)))
 
         today_in_history_margin = 10
