@@ -29,13 +29,14 @@ def generate_screen_image(api_access):
     today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
 
     weather_page_driver = build_weather_page_driver()
+    next_days_weather = api_access.get_next_days_weather(weather_page_driver)
     try:
         rain_hour_widget = RainHourWidget(api_access, weather_page_driver)
         rain_hour_x = SCREEN_WIDTH / 2 - rain_hour_widget.width() / 2
         rain_hour_y = today_in_history_y + today_in_history_widget.height() + spacing
         rain_hour_widget.draw(Pen(image, (rain_hour_x, rain_hour_y)))
 
-        next_days_weather_widget = NextDaysWeatherWidget(api_access, weather_page_driver)
+        next_days_weather_widget = NextDaysWeatherWidget(api_access, next_days_weather)
         next_days_weather_x = SCREEN_WIDTH / 2 - next_days_weather_widget.width() / 2
         next_days_weather_y = rain_hour_y + rain_hour_widget.height() + spacing
         next_days_weather_widget.draw(Pen(image, (next_days_weather_x, next_days_weather_y)))

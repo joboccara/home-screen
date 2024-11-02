@@ -3,8 +3,8 @@ from font_utils import FONT_LOCATION, text_height, text_width
 from next_days_weather_scraping import scrape_next_days_weather
 
 class NextDaysWeatherWidget:
-    def __init__(self, api_access, weather_page_driver):
-        self.next_days_weather = api_access.get_next_days_weather(weather_page_driver)
+    def __init__(self, api_access, next_days_weather):
+        self.next_days_weather = next_days_weather
 
     ICON_SIZE = 40
     ICON_SPACING = 10
