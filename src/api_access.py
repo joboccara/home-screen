@@ -3,6 +3,7 @@ import json
 import requests
 from rain_hour_scraping import scrape_rain_hour
 from weather_scraping import scrape_weather
+from zmanim_scraping import scrape_zmanim
 
 class ApiAccess:
     def get(self, url, headers):
@@ -14,6 +15,9 @@ class ApiAccess:
 
     def get_weather(self, driver):
         return scrape_weather(driver)
+
+    def get_zmanim(self, driver):
+        return scrape_zmanim(driver)
 
 class FakeApiAccess:
     def get(self, url, headers):
@@ -41,3 +45,6 @@ class FakeApiAccess:
 
     def get_weather(self, driver):
         return scrape_weather(driver)
+
+    def get_zmanim(self, driver):
+        return Zmanim(driver)

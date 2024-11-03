@@ -1,11 +1,9 @@
 from PIL import ImageFont
 from datetime import datetime
 from font_utils import FONT_LOCATION, REVERSE_FONT_LOCATION, text_height, text_size, text_width
-from selenium.webdriver.common.by import By
-from webdrivers import build_calj_driver
 
 class DateTimeWidget:
-    def __init__(self, driver):
+    def __init__(self, zmanim):
         self.time_string = datetime.now().strftime("%H:%M")
         self.time_font = ImageFont.truetype(FONT_LOCATION, 30)
         self.time_width, self.time_height = text_size(self.time_string, self.time_font)
@@ -14,27 +12,7 @@ class DateTimeWidget:
         self.date_font = ImageFont.truetype(FONT_LOCATION, 15)
         self.date_width, self.date_height = text_size(self.date_string, self.date_font)
 
-        self.zmanim = self._get_zmanim(driver)
-
-    def _get_zmanim(self, driver):
-        try:
-            tef_time = self._find_time_from_label(driver, "début tefilin")
-            tzet_time = self._find_time_from_label(driver, "tzeit hacokhavim")
-
-            sh_start_label_span = driver.find_element(By.XPATH, "//*[text() = 'allumage avant :']")
-            sh_start_time = sh_start_label_span.find_element(By.XPATH, "../../../*[3]/*[1]/*[1]").text
-            sh_end_time = sh_start_label_span.find_element(By.XPATH, "../../../*[3]/*[2]/*[1]").text
-            par = sh_start_label_span.find_element(By.XPATH, "../../../../../../../*[3]/*[1]/*[2]").text[::-1]
-            
-            result = {"tef": tef_time, "tzet": tzet_time, "sh_start": sh_start_time, "sh_end": sh_end_time, "par": par}
-        except:
-            result = {"error": True}
-        finally:
-            return result
-
-    def _find_time_from_label(self, driver, label):
-        tef_label_a = driver.find_element(By.XPATH, f"//*[text() = '{label}']")
-        return tef_label_a.find_element(By.XPATH, "../../*[2]").text
+        self.zmanim = zmanim
 
     SPACING = 10
     LABEL_TIME_SPACING = 2

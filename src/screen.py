@@ -31,11 +31,13 @@ class Screen:
 
     def _init_data(self):
         weather_page_driver = build_weather_page_driver()
+        calj_driver = build_calj_driver()
         return {
             "weather_page_driver": weather_page_driver,
             "weather": self.api_access.get_weather(weather_page_driver),
             "rain_intensity_by_datetime": self.api_access.get_rain_intensity_by_datetime(weather_page_driver),
-            "calj_driver": build_calj_driver()
+            "calj_driver": calj_driver,
+            "zmanim": self.api_access.get_zmanim(calj_driver)
             }
 
     def _refresh_data(self, data):
@@ -43,6 +45,7 @@ class Screen:
         data["weather"] = self.api_access.get_weather(data["weather_page_driver"])
         data["rain_intensity_by_datetime"] = self.api_access.get_rain_intensity_by_datetime(data["weather_page_driver"])
         data["calj_driver"].refresh()
+        data["zmanim"] = self.api_access.get_zmanim(data["calj_driver"])
 
     def _close_data(self, data):
         data["weather_page_driver"].quit()
@@ -55,7 +58,7 @@ class Screen:
         todays_weather_widget = WeatherWidget(self.api_access, [todays_weather])
         todays_weather_y = 50
 
-        date_time_widget = DateTimeWidget(data["calj_driver"])
+        date_time_widget = DateTimeWidget(data["zmanim"])
         date_time_x = SCREEN_WIDTH / 2 - (date_time_widget.width() + spacing + todays_weather_widget.width()) / 2
         date_time_y = todays_weather_y + todays_weather_widget.height() / 2 - date_time_widget.height() / 2
         date_time_widget.draw(Pen(image, (date_time_x, date_time_y)))
