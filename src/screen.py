@@ -19,27 +19,39 @@ class Screen:
 
     def display(self, display_image):
         while(True):
-            weather_page_driver = build_weather_page_driver()
-            calj_driver = build_calj_driver()
+            data = self._init_data()
             try:
                 while(True):
-                    self.paint(self.image, weather_page_driver, calj_driver)
+                    self.paint(self.image, data)
                     display_image(self.image)
-                    weather_page_driver.refresh()
-                    calj_driver.refresh()
+                    self._refresh_data(data)
             finally:
-                weather_page_driver.quit()
-                calj_driver.quit()
+                self._close_data(data)
 
-    def paint(self, image, weather_page_driver, calj_driver):
+    def _init_data(self):
+        return {
+            "weather_page_driver": build_weather_page_driver(),
+            "calj_driver": build_calj_driver()
+            }
+
+    def _refresh_data(self, data):
+        data["weather_page_driver"].refresh()
+        data["calj_driver"].refresh()
+
+    def _close_data(self, data):
+        data["weather_page_driver"].quit()
+        data["calj_driver"].quit()
+
+
+    def paint(self, image, data):
         spacing = 45
 
-        weather = self.api_access.get_weather(weather_page_driver)
+        weather = self.api_access.get_weather(data["weather_page_driver"])
         todays_weather = weather[0]
         todays_weather_widget = WeatherWidget(self.api_access, [todays_weather])
         todays_weather_y = 50
 
-        date_time_widget = DateTimeWidget(calj_driver)
+        date_time_widget = DateTimeWidget(data["calj_driver"])
         date_time_x = SCREEN_WIDTH / 2 - (date_time_widget.width() + spacing + todays_weather_widget.width()) / 2
         date_time_y = todays_weather_y + todays_weather_widget.height() / 2 - date_time_widget.height() / 2
         date_time_widget.draw(Pen(image, (date_time_x, date_time_y)))
@@ -54,7 +66,7 @@ class Screen:
         today_in_history_widget = TodayInHistoryWidget(self.api_access, today_in_history_width)
         today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
 
-        rain_hour_widget = RainHourWidget(self.api_access, weather_page_driver)
+        rain_hour_widget = RainHourWidget(self.api_access, data["weather_page_driver"])
         rain_hour_x = SCREEN_WIDTH / 2 - rain_hour_widget.width() / 2
         rain_hour_y = today_in_history_y + today_in_history_widget.height() + spacing
         rain_hour_widget.draw(Pen(image, (rain_hour_x, rain_hour_y)))
