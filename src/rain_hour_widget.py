@@ -12,8 +12,8 @@ class RainHourWidget:
     TITLE = "Rain in the hour:"
     TITLE_FONT = ImageFont.truetype(FONT_LOCATION, 15)
 
-    def __init__(self, api_access, weather_page_driver):
-        self.rain_intensity_by_datetime = api_access.get_rain_intensity_by_datetime(weather_page_driver)
+    def __init__(self, rain_intensity_by_datetime):
+        self.rain_intensity_by_datetime = rain_intensity_by_datetime
 
     def draw(self, pen):
         if self.rains_in_the_hour():

@@ -22,6 +22,7 @@ class Screen:
             data = self._init_data()
             try:
                 while(True):
+                    self._clear_image(self.image)
                     self._paint(self.image, data)
                     display_image(self.image)
                     self._refresh_data(data)
@@ -33,18 +34,19 @@ class Screen:
         return {
             "weather_page_driver": weather_page_driver,
             "weather": self.api_access.get_weather(weather_page_driver),
+            "rain_intensity_by_datetime": self.api_access.get_rain_intensity_by_datetime(weather_page_driver),
             "calj_driver": build_calj_driver()
             }
 
     def _refresh_data(self, data):
         data["weather_page_driver"].refresh()
         data["weather"] = self.api_access.get_weather(data["weather_page_driver"])
+        data["rain_intensity_by_datetime"] = self.api_access.get_rain_intensity_by_datetime(data["weather_page_driver"])
         data["calj_driver"].refresh()
 
     def _close_data(self, data):
         data["weather_page_driver"].quit()
         data["calj_driver"].quit()
-
 
     def _paint(self, image, data):
         spacing = 45
@@ -68,7 +70,7 @@ class Screen:
         today_in_history_widget = TodayInHistoryWidget(self.api_access, today_in_history_width)
         today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
 
-        rain_hour_widget = RainHourWidget(self.api_access, data["weather_page_driver"])
+        rain_hour_widget = RainHourWidget(data["rain_intensity_by_datetime"])
         rain_hour_x = SCREEN_WIDTH / 2 - rain_hour_widget.width() / 2
         rain_hour_y = today_in_history_y + today_in_history_widget.height() + spacing
         rain_hour_widget.draw(Pen(image, (rain_hour_x, rain_hour_y)))
@@ -95,3 +97,6 @@ class Screen:
         fact_width = SCREEN_WIDTH - 2 * today_in_history_margin
         fact_widget = FactWidget(self.api_access, fact_width)
         fact_widget.draw(Pen(image, (fact_x, fact_y)))
+
+    def _clear_image(self, image):
+        image.paste(Image.new("RGB", image.size, "white"))
