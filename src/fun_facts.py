@@ -14,9 +14,13 @@ def get_fun_facts():
     chuck_norris_url = "https://api.api-ninjas.com/v1/chucknorris"
     chuck_norris = _fetch(chuck_norris_url)["joke"]
 
+    facts_url = "https://api.api-ninjas.com/v1/facts"
+    fact = _fetch(facts_url)[0]["fact"]
+
     return {
         "today_in_history": today_in_history,
-        "chuck_norris": chuck_norris
+        "chuck_norris": chuck_norris,
+        "fact": fact
         }
 
 def _fetch(url):

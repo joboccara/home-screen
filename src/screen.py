@@ -100,7 +100,7 @@ class Screen:
         fact_x = today_in_history_margin
         fact_y = buses_times_y + buses_times_widget.height() + spacing
         fact_width = SCREEN_WIDTH - 2 * today_in_history_margin
-        fact_widget = FactWidget(self.api_access, fact_width)
+        fact_widget = FactWidget(data["fun_facts"], fact_width)
         fact_widget.draw(Pen(image, (fact_x, fact_y)))
 
     def _clear_image(self, image):
