@@ -22,7 +22,7 @@ class Screen:
             data = self._init_data()
             try:
                 while(True):
-                    self.paint(self.image, data)
+                    self._paint(self.image, data)
                     display_image(self.image)
                     self._refresh_data(data)
             finally:
@@ -46,7 +46,7 @@ class Screen:
         data["calj_driver"].quit()
 
 
-    def paint(self, image, data):
+    def _paint(self, image, data):
         spacing = 45
 
         todays_weather = data["weather"][0]
