@@ -15,17 +15,21 @@ SCREEN_HEIGHT = 800
 class Screen:
     def __init__(self, api_access):
         self.image = Image.new('1', (SCREEN_WIDTH, SCREEN_HEIGHT), 255)
-        self.weather_page_driver = build_weather_page_driver()
-        self.calj_driver = build_calj_driver()
         self.api_access = api_access
 
     def display(self, display_image):
-        try:
-            self.paint(self.image, self.weather_page_driver, self.calj_driver)
-            display_image(self.image)
-        finally:
-            self.weather_page_driver.quit()
-            self.calj_driver.quit()
+        while(True):
+            weather_page_driver = build_weather_page_driver()
+            calj_driver = build_calj_driver()
+            try:
+                while(True):
+                    self.paint(self.image, weather_page_driver, calj_driver)
+                    display_image(self.image)
+                    weather_page_driver.refresh()
+                    calj_driver.refresh()
+            finally:
+                weather_page_driver.quit()
+                calj_driver.quit()
 
     def paint(self, image, weather_page_driver, calj_driver):
         spacing = 45

@@ -30,7 +30,6 @@ class DateTimeWidget:
         except:
             result = {"error": True}
         finally:
-            driver.quit()
             return result
 
     def _find_time_from_label(self, driver, label):
