@@ -3,8 +3,10 @@ system = platform.system()
 
 if system == 'Darwin':
     FONT_LOCATION = '/System/Library/Fonts/Helvetica.ttc'
+    REVERSE_FONT_LOCATION = '/System/Library/Fonts/ArialHB.ttc'
 else:
     FONT_LOCATION = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+    REVERSE_FONT_LOCATION = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
 
 def text_size(text, free_type_font):
     size, offset = free_type_font.font.getsize(text)

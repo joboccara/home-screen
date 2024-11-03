@@ -6,6 +6,9 @@ WEATHER_URL = "https://meteofrance.com/previsions-meteo-france/neuilly-sur-seine
 def build_weather_page_driver():
     return build_driver(WEATHER_URL)
 
+def build_calj_driver():
+    return build_driver("https://www.calj.net")
+
 def build_driver(url):
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
