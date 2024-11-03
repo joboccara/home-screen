@@ -5,9 +5,10 @@ from fact_widget import FactWidget
 from weather_widget import WeatherWidget
 from today_in_history_widget import TodayInHistoryWidget
 from rain_hour_widget import RainHourWidget
+from data import Data
 from pen import Pen
 from PIL import Image
-from webdrivers import build_calj_driver, build_weather_page_driver
+import time
 
 SCREEN_WIDTH = 480
 SCREEN_HEIGHT = 800
@@ -19,41 +20,16 @@ class Screen:
 
     def display(self, display_image):
         while(True):
-            data = self._init_data()
+            data = Data(self.api_access)
             try:
                 while(True):
                     self._clear_image(self.image)
-                    self._paint(self.image, data)
+                    self._paint(self.image, data.get())
                     display_image(self.image)
-                    self._refresh_data(data)
+                    data.refresh()
+                    time.sleep(1)
             finally:
-                self._close_data(data)
-
-    def _init_data(self):
-        weather_page_driver = build_weather_page_driver()
-        calj_driver = build_calj_driver()
-        return {
-            "weather_page_driver": weather_page_driver,
-            "weather": self.api_access.get_weather(weather_page_driver),
-            "rain_intensity_by_datetime": self.api_access.get_rain_intensity_by_datetime(weather_page_driver),
-            "calj_driver": calj_driver,
-            "zmanim": self.api_access.get_zmanim(calj_driver),
-            "fun_facts": self.api_access.get_fun_facts(),
-            "buses_times": self.api_access.get_buses_times()
-            }
-
-    def _refresh_data(self, data):
-        data["weather_page_driver"].refresh()
-        data["weather"] = self.api_access.get_weather(data["weather_page_driver"])
-        data["rain_intensity_by_datetime"] = self.api_access.get_rain_intensity_by_datetime(data["weather_page_driver"])
-        data["calj_driver"].refresh()
-        data["zmanim"] = self.api_access.get_zmanim(data["calj_driver"])
-        data["fun_facts"] = self.api_access.get_fun_facts()
-        data["buses_times"] = self.api_access.get_buses_times()
-
-    def _close_data(self, data):
-        data["weather_page_driver"].quit()
-        data["calj_driver"].quit()
+                data.close()
 
     def _paint(self, image, data):
         spacing = 45
