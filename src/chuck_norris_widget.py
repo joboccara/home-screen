@@ -4,12 +4,10 @@ import os
 from PIL import ImageFont
 
 class ChuckNorrisWidget:
-    def __init__(self, api_access, width) -> None:
+    def __init__(self, fun_facts, width) -> None:
         self.width = width
-        api_url = "https://api.api-ninjas.com/v1/chucknorris"
-        response = api_access.get(api_url, headers={'X-Api-Key': os.getenv("API_NINJAS_API_KEY")}) 
         self.content_font = ImageFont.truetype(FONT_LOCATION, 15)
-        self.content = response["joke"]
+        self.content = fun_facts["chuck_norris"]
 
     SPACING = 10
 

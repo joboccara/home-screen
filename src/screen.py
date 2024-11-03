@@ -89,7 +89,7 @@ class Screen:
         chuck_norris_x = today_in_history_margin
         chuck_norris_y = next_days_weather_y + next_days_weather_widget.height() + spacing
         chuck_norris_width = SCREEN_WIDTH - 2 * today_in_history_margin
-        chuck_norris_widget = ChuckNorrisWidget(self.api_access, chuck_norris_width)
+        chuck_norris_widget = ChuckNorrisWidget(data["fun_facts"], chuck_norris_width)
         chuck_norris_widget.draw(Pen(image, (chuck_norris_x, chuck_norris_y)))
 
         buses_times_widget = BusesTimesWidget()
