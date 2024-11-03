@@ -15,25 +15,26 @@ class BusesTimesWidget:
     DIRECTION_FONT = ImageFont.truetype(FONT_LOCATION, 10)
     TIMES_FONT = LINE_FONT
     BUSES = [
-        { "line": "82", "direction": "Luxembourg", "bus_stop_reference": 23507 },
-        { "line": "163", "direction": "Porte de Clichy", "bus_stop_reference": 23762 },
-        { "line": "164", "direction": "Porte de Champerret", "bus_stop_reference": 23762 }
+        { "line": "82", "direction_ref": "Luxembourg • Victor Hugo - Poincaré", "bus_stop_reference": 23507 },
+        { "line": "163", "direction_ref": "Charlebourg • Porte de Clichy", "bus_stop_reference": 23762 },
+        { "line": "164", "direction_ref": "Porte de Champerret", "bus_stop_reference": 23762 }
     ]
 
     def __init__(self):
         self._buses_times = list(map(lambda bus_stop: self._get_bus_times(bus_stop["line"],
-                                                                          bus_stop["direction"],
+                                                                          bus_stop["direction_ref"],
                                                                           bus_stop["bus_stop_reference"]), self.BUSES))
 
-    def _get_bus_times(self, line_number, direction, bus_stop_reference):
+    def _get_bus_times(self, line_number, direction_ref, bus_stop_reference):
         url = f"https://prim.iledefrance-mobilites.fr/marketplace/stop-monitoring?MonitoringRef=STIF:StopPoint:Q:{bus_stop_reference}:"
         response = json.loads(requests.get(url, headers={"apiKey": os.getenv("PRIM_API_KEY")}).text)
         bus_stop_passages = response["Siri"]["ServiceDelivery"]["StopMonitoringDelivery"][0]["MonitoredStopVisit"]
         if bus_stop_passages == []:
             first_time_label, second_time_label = "SERVICE", "FINISHED"
         else:
-            line_passages = list(filter(lambda passage: passage["MonitoredVehicleJourney"]["MonitoredCall"]["DestinationDisplay"][0]["value"] == direction, bus_stop_passages))
+            line_passages = list(filter(lambda passage: passage["MonitoredVehicleJourney"]["DirectionName"][0]["value"] == direction_ref, bus_stop_passages))
             times = list(map(lambda passage: passage["MonitoredVehicleJourney"]["MonitoredCall"]["ExpectedDepartureTime"], line_passages))
+            directions = list(map(lambda passage: passage["MonitoredVehicleJourney"]["MonitoredCall"]["DestinationDisplay"][0]["value"], line_passages))
             first_time_label = self._time_s_to_minutes_label(times[0])
             if len(line_passages) == 1:
                 second_time_label = "Last bus"
@@ -41,7 +42,7 @@ class BusesTimesWidget:
                 second_time_label = self._time_s_to_minutes_label(times[1])
         return {
             "line_number": line_number,
-            "direction": direction,
+            "direction": directions[0],
             "times": [first_time_label, second_time_label]
             }
 
