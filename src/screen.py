@@ -46,16 +46,9 @@ class Screen:
         todays_weather_x = date_time_x + date_time_widget.width() + spacing
         todays_weather_widget.draw(Pen(image, (todays_weather_x, todays_weather_y)))
 
-        today_in_history_margin = 10
-        today_in_history_x = today_in_history_margin
-        today_in_history_y = max(date_time_y + date_time_widget.height(), todays_weather_y + todays_weather_widget.height()) + spacing
-        today_in_history_width = SCREEN_WIDTH - 2 * today_in_history_margin
-        today_in_history_widget = TodayInHistoryWidget(data["fun_facts"], today_in_history_width)
-        today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
-
         rain_hour_widget = RainHourWidget(data["rain_intensity_by_datetime"])
         rain_hour_x = SCREEN_WIDTH / 2 - rain_hour_widget.width() / 2
-        rain_hour_y = today_in_history_y + today_in_history_widget.height() + spacing
+        rain_hour_y = max(date_time_y + date_time_widget.height(), todays_weather_y + todays_weather_widget.height()) + spacing
         rain_hour_widget.draw(Pen(image, (rain_hour_x, rain_hour_y)))
 
         next_days_weather = data["weather"][1:]
@@ -64,8 +57,15 @@ class Screen:
         next_days_weather_y = rain_hour_y + rain_hour_widget.height() + spacing
         next_days_weather_widget.draw(Pen(image, (next_days_weather_x, next_days_weather_y)))
 
+        today_in_history_margin = 10
+        today_in_history_x = today_in_history_margin
+        today_in_history_y = next_days_weather_y + next_days_weather_widget.height() + spacing
+        today_in_history_width = SCREEN_WIDTH - 2 * today_in_history_margin
+        today_in_history_widget = TodayInHistoryWidget(data["fun_facts"], today_in_history_width)
+        today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
+
         chuck_norris_x = today_in_history_margin
-        chuck_norris_y = next_days_weather_y + next_days_weather_widget.height() + spacing
+        chuck_norris_y = today_in_history_y + today_in_history_widget.height() + spacing
         chuck_norris_width = SCREEN_WIDTH - 2 * today_in_history_margin
         chuck_norris_widget = ChuckNorrisWidget(data["fun_facts"], chuck_norris_width)
         chuck_norris_widget.draw(Pen(image, (chuck_norris_x, chuck_norris_y)))
