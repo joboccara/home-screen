@@ -1,15 +1,11 @@
 from datetime import datetime
 from font_utils import FONT_LOCATION, text_size, text_width, text_height, wrapped_text_height
-import os
 from PIL import ImageFont
-import random
 
 class TodayInHistoryWidget:
-    def __init__(self, api_access, width) -> None:
+    def __init__(self, fun_facts, width) -> None:
         self.width = width
-        api_url = f"https://api.api-ninjas.com/v1/historicalevents?day={datetime.now().day}&month={datetime.now().month}"
-        response = api_access.get(api_url, headers={'X-Api-Key': os.getenv("API_NINJAS_API_KEY")}) 
-        self.fact = response[random.randint(0, len(response) - 1)] if len(response) > 0 else None
+        self.fact = fun_facts["today_in_history"]
 
         if self.fact is not None:
             year = self.fact["year"]

@@ -37,7 +37,8 @@ class Screen:
             "weather": self.api_access.get_weather(weather_page_driver),
             "rain_intensity_by_datetime": self.api_access.get_rain_intensity_by_datetime(weather_page_driver),
             "calj_driver": calj_driver,
-            "zmanim": self.api_access.get_zmanim(calj_driver)
+            "zmanim": self.api_access.get_zmanim(calj_driver),
+            "fun_facts": self.api_access.get_fun_facts()
             }
 
     def _refresh_data(self, data):
@@ -46,6 +47,7 @@ class Screen:
         data["rain_intensity_by_datetime"] = self.api_access.get_rain_intensity_by_datetime(data["weather_page_driver"])
         data["calj_driver"].refresh()
         data["zmanim"] = self.api_access.get_zmanim(data["calj_driver"])
+        data["fun_facts"] = self.api_access.get_fun_facts()
 
     def _close_data(self, data):
         data["weather_page_driver"].quit()
@@ -70,7 +72,7 @@ class Screen:
         today_in_history_x = today_in_history_margin
         today_in_history_y = max(date_time_y + date_time_widget.height(), todays_weather_y + todays_weather_widget.height()) + spacing
         today_in_history_width = SCREEN_WIDTH - 2 * today_in_history_margin
-        today_in_history_widget = TodayInHistoryWidget(self.api_access, today_in_history_width)
+        today_in_history_widget = TodayInHistoryWidget(data["fun_facts"], today_in_history_width)
         today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
 
         rain_hour_widget = RainHourWidget(data["rain_intensity_by_datetime"])
