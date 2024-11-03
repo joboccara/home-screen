@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from webdrivers import build_calj_driver
 
 class DateTimeWidget:
-    def __init__(self):
+    def __init__(self, driver):
         self.time_string = datetime.now().strftime("%H:%M")
         self.time_font = ImageFont.truetype(FONT_LOCATION, 30)
         self.time_width, self.time_height = text_size(self.time_string, self.time_font)
@@ -14,10 +14,9 @@ class DateTimeWidget:
         self.date_font = ImageFont.truetype(FONT_LOCATION, 15)
         self.date_width, self.date_height = text_size(self.date_string, self.date_font)
 
-        self.zmanim = self._get_zmanim()
+        self.zmanim = self._get_zmanim(driver)
 
-    def _get_zmanim(self):
-        driver = build_calj_driver()
+    def _get_zmanim(self, driver):
         try:
             tef_time = self._find_time_from_label(driver, "début tefilin")
             tzet_time = self._find_time_from_label(driver, "tzeit hacokhavim")
