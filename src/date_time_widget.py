@@ -25,7 +25,7 @@ class DateTimeWidget:
             sh_start_label_span = driver.find_element(By.XPATH, "//*[text() = 'allumage avant :']")
             sh_start_time = sh_start_label_span.find_element(By.XPATH, "../../../*[3]/*[1]/*[1]").text
             sh_end_time = sh_start_label_span.find_element(By.XPATH, "../../../*[3]/*[2]/*[1]").text
-            par = sh_start_label_span.find_element(By.XPATH, "../../../../../../../*[3]/*[1]/*[2]").text
+            par = sh_start_label_span.find_element(By.XPATH, "../../../../../../../*[3]/*[1]/*[2]").text[::-1]
             
             result = {"tef": tef_time, "tzet": tzet_time, "sh_start": sh_start_time, "sh_end": sh_end_time, "par": par}
         except:
@@ -56,15 +56,32 @@ class DateTimeWidget:
         tef_time_y = date_y + self.date_height + self.SPACING
         self._draw_value_label(pen, (tef_time_x, tef_time_y), self.zmanim["tef"], TEF_LABEL)
 
-    def _draw_value_label(self, pen, offset, value, label):
-        tef_width = self._value_label_width(value, label)
-        pen.write((offset[0], offset[1]), value, self.ZMANIM_VALUE_FONT)
-        tef_label_x = offset[0] + text_width(value, self.ZMANIM_VALUE_FONT) + self.LABEL_TIME_SPACING
-        pen.write((tef_label_x, offset[1]), label, self.ZMANIM_LABEL_FONT)
+        TZET_LABEL = "צ׳׳ה :"[::-1]
+        tzet_time_x = time_x + self.time_width / 2 - self._value_label_width(self.zmanim["tzet"], TZET_LABEL) / 2
+        tzet_time_y = tef_time_y + text_height(self.zmanim["tef"], self.ZMANIM_VALUE_FONT) + self.SPACING
+        self._draw_value_label(pen, (tzet_time_x, tzet_time_y), self.zmanim["tzet"], TZET_LABEL)
+
+        sh_end_width = text_width(self.zmanim["sh_end"], self.ZMANIM_VALUE_FONT)
+        par_width = text_width(self.zmanim["par"], self.ZMANIM_LABEL_FONT)
+        sh_start_width = text_width(self.zmanim["sh_start"], self.ZMANIM_VALUE_FONT)
+        sh_width = sh_end_width + self.LABEL_TIME_SPACING \
+                   + par_width + self.LABEL_TIME_SPACING \
+                   + sh_start_width
+        sh_end_x = time_x + self.time_width / 2 - sh_width / 2
+        sh_end_y = tzet_time_y + text_height(self.zmanim["tzet"], self.ZMANIM_VALUE_FONT) + self.SPACING
+        pen.write((sh_end_x, sh_end_y), self.zmanim["sh_end"], self.ZMANIM_VALUE_FONT)
+        par_x = sh_end_x + sh_end_width + self.LABEL_TIME_SPACING
+        pen.write((par_x, sh_end_y), self.zmanim["par"], self.ZMANIM_LABEL_FONT)
+        sh_start_x = par_x + par_width + self.LABEL_TIME_SPACING
+        pen.write((sh_start_x, sh_end_y), self.zmanim["sh_start"], self.ZMANIM_VALUE_FONT)
 
     def _value_label_width(self, value, label):
         return text_width(value, self.ZMANIM_VALUE_FONT) + self.LABEL_TIME_SPACING + text_width(label, self.ZMANIM_LABEL_FONT)
 
+    def _draw_value_label(self, pen, offset, value, label):
+        pen.write((offset[0], offset[1]), value, self.ZMANIM_VALUE_FONT)
+        tef_label_x = offset[0] + text_width(value, self.ZMANIM_VALUE_FONT) + self.LABEL_TIME_SPACING
+        pen.write((tef_label_x, offset[1]), label, self.ZMANIM_LABEL_FONT)
 
     def width(self):
         return max(self.time_width, self.date_width)
