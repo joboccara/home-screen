@@ -29,13 +29,16 @@ class Screen:
                 self._close_data(data)
 
     def _init_data(self):
+        weather_page_driver = build_weather_page_driver()
         return {
-            "weather_page_driver": build_weather_page_driver(),
+            "weather_page_driver": weather_page_driver,
+            "weather": self.api_access.get_weather(weather_page_driver),
             "calj_driver": build_calj_driver()
             }
 
     def _refresh_data(self, data):
         data["weather_page_driver"].refresh()
+        data["weather"] = self.api_access.get_weather(data["weather_page_driver"])
         data["calj_driver"].refresh()
 
     def _close_data(self, data):
@@ -46,8 +49,7 @@ class Screen:
     def paint(self, image, data):
         spacing = 45
 
-        weather = self.api_access.get_weather(data["weather_page_driver"])
-        todays_weather = weather[0]
+        todays_weather = data["weather"][0]
         todays_weather_widget = WeatherWidget(self.api_access, [todays_weather])
         todays_weather_y = 50
 
@@ -71,7 +73,7 @@ class Screen:
         rain_hour_y = today_in_history_y + today_in_history_widget.height() + spacing
         rain_hour_widget.draw(Pen(image, (rain_hour_x, rain_hour_y)))
 
-        next_days_weather = weather[1:]
+        next_days_weather = data["weather"][1:]
         next_days_weather_widget = WeatherWidget(self.api_access, next_days_weather)
         next_days_weather_x = SCREEN_WIDTH / 2 - next_days_weather_widget.width() / 2
         next_days_weather_y = rain_hour_y + rain_hour_widget.height() + spacing
