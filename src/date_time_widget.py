@@ -87,4 +87,6 @@ class DateTimeWidget:
         return max(self.time_width, self.date_width)
 
     def height(self):
-        return self.time_height + self.SPACING + self.date_height
+        return self.time_height + self.SPACING \
+            + self.date_height + self.SPACING \
+            + 3 * (text_height(self.zmanim["tef"], self.ZMANIM_VALUE_FONT) + self.SPACING) - self.SPACING
