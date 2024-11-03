@@ -15,7 +15,8 @@ class DateTimeWidget:
         self.zmanim = zmanim
 
     SPACING = 10
-    LABEL_TIME_SPACING = 4
+    LABEL_TIME_SPACING = 6
+    PAR_TIME_SPACING = 10
     ZMANIM_FONT_SIZE = 12
     ZMANIM_VALUE_FONT = ImageFont.truetype(FONT_LOCATION, ZMANIM_FONT_SIZE)
     ZMANIM_LABEL_FONT = ImageFont.truetype(REVERSE_FONT_LOCATION, ZMANIM_FONT_SIZE)
@@ -40,15 +41,15 @@ class DateTimeWidget:
         sh_end_width = text_width(self.zmanim["sh_end"], self.ZMANIM_VALUE_FONT)
         par_width = text_width(self.zmanim["par"], self.ZMANIM_LABEL_FONT)
         sh_start_width = text_width(self.zmanim["sh_start"], self.ZMANIM_VALUE_FONT)
-        sh_width = sh_end_width + self.LABEL_TIME_SPACING \
-                   + par_width + self.LABEL_TIME_SPACING \
+        sh_width = sh_end_width + self.PAR_TIME_SPACING \
+                   + par_width + self.PAR_TIME_SPACING \
                    + sh_start_width
         sh_end_x = time_x + self.time_width / 2 - sh_width / 2
         sh_end_y = tzet_time_y + text_height(self.zmanim["tzet"], self.ZMANIM_VALUE_FONT) + self.SPACING
         pen.write((sh_end_x, sh_end_y), self.zmanim["sh_end"], self.ZMANIM_VALUE_FONT)
-        par_x = sh_end_x + sh_end_width + self.LABEL_TIME_SPACING
+        par_x = sh_end_x + sh_end_width + self.PAR_TIME_SPACING
         pen.write((par_x, sh_end_y), self.zmanim["par"], self.ZMANIM_LABEL_FONT)
-        sh_start_x = par_x + par_width + self.LABEL_TIME_SPACING
+        sh_start_x = par_x + par_width + self.PAR_TIME_SPACING
         pen.write((sh_start_x, sh_end_y), self.zmanim["sh_start"], self.ZMANIM_VALUE_FONT)
 
     def _value_label_width(self, value, label):
