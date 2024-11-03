@@ -38,7 +38,8 @@ class Screen:
             "rain_intensity_by_datetime": self.api_access.get_rain_intensity_by_datetime(weather_page_driver),
             "calj_driver": calj_driver,
             "zmanim": self.api_access.get_zmanim(calj_driver),
-            "fun_facts": self.api_access.get_fun_facts()
+            "fun_facts": self.api_access.get_fun_facts(),
+            "buses_times": self.api_access.get_buses_times()
             }
 
     def _refresh_data(self, data):
@@ -48,6 +49,7 @@ class Screen:
         data["calj_driver"].refresh()
         data["zmanim"] = self.api_access.get_zmanim(data["calj_driver"])
         data["fun_facts"] = self.api_access.get_fun_facts()
+        data["buses_times"] = self.api_access.get_buses_times()
 
     def _close_data(self, data):
         data["weather_page_driver"].quit()
@@ -92,7 +94,7 @@ class Screen:
         chuck_norris_widget = ChuckNorrisWidget(data["fun_facts"], chuck_norris_width)
         chuck_norris_widget.draw(Pen(image, (chuck_norris_x, chuck_norris_y)))
 
-        buses_times_widget = BusesTimesWidget()
+        buses_times_widget = BusesTimesWidget(data["buses_times"])
         buses_times_x = SCREEN_WIDTH / 2 - buses_times_widget.width() / 2
         buses_times_y = chuck_norris_y + chuck_norris_widget.height() + spacing
         buses_times_widget.draw(Pen(image, (buses_times_x, buses_times_y)))

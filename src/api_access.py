@@ -1,6 +1,7 @@
 from datetime import datetime
 import json
 import requests
+from bus_times import get_buses_times
 from fun_facts import get_fun_facts
 from rain_hour_scraping import scrape_rain_hour
 from weather_scraping import scrape_weather
@@ -22,6 +23,9 @@ class ApiAccess:
 
     def get_zmanim(self, driver):
         return scrape_zmanim(driver)
+
+    def get_buses_times(self):
+        return get_buses_times()
 
 class FakeApiAccess:
     def get(self, url, headers):
@@ -58,4 +62,7 @@ class FakeApiAccess:
         return scrape_weather(driver)
 
     def get_zmanim(self, driver):
-        return Zmanim(driver)
+        return scrape_zmanim(driver)
+
+    def get_buses_times(self):
+        return get_buses_times()
