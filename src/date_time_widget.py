@@ -15,8 +15,8 @@ class DateTimeWidget:
         self.zmanim = zmanim
 
     SPACING = 10
-    LABEL_TIME_SPACING = 2
-    ZMANIM_FONT_SIZE = 10
+    LABEL_TIME_SPACING = 4
+    ZMANIM_FONT_SIZE = 12
     ZMANIM_VALUE_FONT = ImageFont.truetype(FONT_LOCATION, ZMANIM_FONT_SIZE)
     ZMANIM_LABEL_FONT = ImageFont.truetype(REVERSE_FONT_LOCATION, ZMANIM_FONT_SIZE)
 
