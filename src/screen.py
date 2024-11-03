@@ -21,21 +21,21 @@ class Screen:
 
     def display(self, display_image):
         try:
-            self.render(display_image)
+            self.paint(self.image, self.weather_page_driver, self.calj_driver)
+            display_image(self.image)
         finally:
             self.weather_page_driver.quit()
             self.calj_driver.quit()
 
-    def render(self, display_image):
-        image = self.image
+    def paint(self, image, weather_page_driver, calj_driver):
         spacing = 45
 
-        weather = self.api_access.get_weather(self.weather_page_driver)
+        weather = self.api_access.get_weather(weather_page_driver)
         todays_weather = weather[0]
         todays_weather_widget = WeatherWidget(self.api_access, [todays_weather])
         todays_weather_y = 50
 
-        date_time_widget = DateTimeWidget(self.calj_driver)
+        date_time_widget = DateTimeWidget(calj_driver)
         date_time_x = SCREEN_WIDTH / 2 - (date_time_widget.width() + spacing + todays_weather_widget.width()) / 2
         date_time_y = todays_weather_y + todays_weather_widget.height() / 2 - date_time_widget.height() / 2
         date_time_widget.draw(Pen(image, (date_time_x, date_time_y)))
@@ -50,7 +50,7 @@ class Screen:
         today_in_history_widget = TodayInHistoryWidget(self.api_access, today_in_history_width)
         today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
 
-        rain_hour_widget = RainHourWidget(self.api_access, self.weather_page_driver)
+        rain_hour_widget = RainHourWidget(self.api_access, weather_page_driver)
         rain_hour_x = SCREEN_WIDTH / 2 - rain_hour_widget.width() / 2
         rain_hour_y = today_in_history_y + today_in_history_widget.height() + spacing
         rain_hour_widget.draw(Pen(image, (rain_hour_x, rain_hour_y)))
@@ -77,5 +77,3 @@ class Screen:
         fact_width = SCREEN_WIDTH - 2 * today_in_history_margin
         fact_widget = FactWidget(self.api_access, fact_width)
         fact_widget.draw(Pen(image, (fact_x, fact_y)))
-
-        display_image(image)
