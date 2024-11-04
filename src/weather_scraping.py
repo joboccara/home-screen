@@ -13,7 +13,7 @@ PERIOD_TRANSLATIONS = {
 WEEK_DAYS_TRANSLATIONS = {
     "LUNDI": "Mon",
     "MARDI": "Tue",
-    "MECREDI": "Wed",
+    "MERCREDI": "Wed",
     "JEUDI": "Thu",
     "VENDREDI": "Fri",
     "SAMEDI": "Sat",
