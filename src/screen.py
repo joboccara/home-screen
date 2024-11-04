@@ -5,6 +5,7 @@ from fact_widget import FactWidget
 from weather_widget import WeatherWidget
 from today_in_history_widget import TodayInHistoryWidget
 from rain_hour_widget import RainHourWidget
+from start_screen_widget import StartScreenWidget
 from data import Data
 from pen import Pen
 from PIL import Image
@@ -19,6 +20,9 @@ class Screen:
         self.api_access = api_access
 
     def display(self, display_image):
+        self._clear_image(self.image)
+        self._paint_start_screen(self.image)
+        display_image(self.image)
         while(True):
             data = Data(self.api_access)
             try:
@@ -83,3 +87,6 @@ class Screen:
 
     def _clear_image(self, image):
         image.paste(Image.new("RGB", image.size, "white"))
+
+    def _paint_start_screen(self, image):
+        StartScreenWidget(SCREEN_WIDTH, SCREEN_HEIGHT).draw(Pen(image, (0, 0)))
