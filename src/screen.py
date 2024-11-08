@@ -66,22 +66,25 @@ class Screen:
         buses_times_y = next_days_weather_y + next_days_weather_widget.height() + spacing
         buses_times_widget.draw(Pen(image, (buses_times_x, buses_times_y)))
 
-        today_in_history_margin = 10
-        fact_x = today_in_history_margin
-        fact_y = buses_times_y + buses_times_widget.height() + spacing
-        fact_width = SCREEN_WIDTH - 2 * today_in_history_margin
+        middle_spacing = 70
+        facts_margin = 10
+        facts_spacing = 30
+
+        fact_x = facts_margin
+        fact_y = buses_times_y + buses_times_widget.height() + middle_spacing
+        fact_width = SCREEN_WIDTH - 2 * facts_margin
         fact_widget = FactWidget(data["fun_facts"], fact_width)
         fact_widget.draw(Pen(image, (fact_x, fact_y)))
 
-        chuck_norris_x = today_in_history_margin
-        chuck_norris_y = fact_y + fact_widget.height() + spacing
-        chuck_norris_width = SCREEN_WIDTH - 2 * today_in_history_margin
+        chuck_norris_x = facts_margin
+        chuck_norris_y = fact_y + fact_widget.height() + facts_spacing
+        chuck_norris_width = SCREEN_WIDTH - 2 * facts_margin
         chuck_norris_widget = ChuckNorrisWidget(data["fun_facts"], chuck_norris_width)
         chuck_norris_widget.draw(Pen(image, (chuck_norris_x, chuck_norris_y)))
 
-        today_in_history_x = today_in_history_margin
-        today_in_history_y = chuck_norris_y + chuck_norris_widget.height() + spacing
-        today_in_history_width = SCREEN_WIDTH - 2 * today_in_history_margin
+        today_in_history_x = facts_margin
+        today_in_history_y = chuck_norris_y + chuck_norris_widget.height() + facts_spacing
+        today_in_history_width = SCREEN_WIDTH - 2 * facts_margin
         today_in_history_widget = TodayInHistoryWidget(data["fun_facts"], today_in_history_width)
         today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
 
