@@ -3,6 +3,7 @@ import json
 import os
 import random
 import requests
+import chuck_norris_facts
 
 API_KEY = os.getenv("API_NINJAS_API_KEY")
 
@@ -11,8 +12,7 @@ def get_fun_facts():
     response = _fetch(today_in_history_url)
     today_in_history = response[random.randint(0, len(response) - 1)] if len(response) > 0 else None
 
-    chuck_norris_url = "https://api.api-ninjas.com/v1/chucknorris"
-    chuck_norris = _fetch(chuck_norris_url)["joke"]
+    chuck_norris = chuck_norris_facts.get_fact()
 
     facts_url = "https://api.api-ninjas.com/v1/facts"
     fact = _fetch(facts_url)[0]["fact"]
