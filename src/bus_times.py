@@ -43,4 +43,8 @@ def _get_buses_times(line_number, direction_ref, direction_name, bus_stop_refere
         }
 
 def _time_s_to_minutes_label(time):
-    return f"{round((dateutil.parser.isoparse(time) - datetime.now().astimezone()).total_seconds() / 60)} min"
+    minutes_left = round((dateutil.parser.isoparse(time) - datetime.now().astimezone()).total_seconds() / 60)
+    if minutes_left >= 1:
+        return f"{minutes_left} min"
+    else:
+        return "Now"
