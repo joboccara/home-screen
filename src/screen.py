@@ -67,23 +67,23 @@ class Screen:
         buses_times_widget.draw(Pen(image, (buses_times_x, buses_times_y)))
 
         today_in_history_margin = 10
-        today_in_history_x = today_in_history_margin
-        today_in_history_y = buses_times_y + buses_times_widget.height() + spacing
-        today_in_history_width = SCREEN_WIDTH - 2 * today_in_history_margin
-        today_in_history_widget = TodayInHistoryWidget(data["fun_facts"], today_in_history_width)
-        today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
+        fact_x = today_in_history_margin
+        fact_y = buses_times_y + buses_times_widget.height() + spacing
+        fact_width = SCREEN_WIDTH - 2 * today_in_history_margin
+        fact_widget = FactWidget(data["fun_facts"], fact_width)
+        fact_widget.draw(Pen(image, (fact_x, fact_y)))
 
         chuck_norris_x = today_in_history_margin
-        chuck_norris_y = today_in_history_y + today_in_history_widget.height() + spacing
+        chuck_norris_y = fact_y + fact_widget.height() + spacing
         chuck_norris_width = SCREEN_WIDTH - 2 * today_in_history_margin
         chuck_norris_widget = ChuckNorrisWidget(data["fun_facts"], chuck_norris_width)
         chuck_norris_widget.draw(Pen(image, (chuck_norris_x, chuck_norris_y)))
 
-        fact_x = today_in_history_margin
-        fact_y = chuck_norris_y + chuck_norris_widget.height() + spacing
-        fact_width = SCREEN_WIDTH - 2 * today_in_history_margin
-        fact_widget = FactWidget(data["fun_facts"], fact_width)
-        fact_widget.draw(Pen(image, (fact_x, fact_y)))
+        today_in_history_x = today_in_history_margin
+        today_in_history_y = chuck_norris_y + chuck_norris_widget.height() + spacing
+        today_in_history_width = SCREEN_WIDTH - 2 * today_in_history_margin
+        today_in_history_widget = TodayInHistoryWidget(data["fun_facts"], today_in_history_width)
+        today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
 
     def _clear_image(self, image):
         image.paste(Image.new("RGB", image.size, "white"))
