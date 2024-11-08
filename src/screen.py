@@ -66,7 +66,7 @@ class Screen:
         buses_times_y = next_days_weather_y + next_days_weather_widget.height() + spacing
         buses_times_widget.draw(Pen(image, (buses_times_x, buses_times_y)))
 
-        middle_spacing = 70
+        middle_spacing = 60
         facts_margin = 10
         facts_spacing = 30
 
