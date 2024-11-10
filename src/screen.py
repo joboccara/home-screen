@@ -24,14 +24,16 @@ class Screen:
         self._paint_start_screen(self.image)
         display_image(self.image)
         while(True):
-            data = Data(self.api_access)
             try:
+                data = Data(self.api_access)
                 while(True):
                     self._clear_image(self.image)
                     self._paint(self.image, data.get())
                     display_image(self.image)
                     data.refresh()
                     time.sleep(1)
+            except:
+                time.sleep(20)
             finally:
                 data.close()
 
