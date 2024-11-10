@@ -38,7 +38,7 @@ class Screen:
     def _paint(self, image, data):
         spacing = 45
 
-        todays_weather = data["weather"][0]
+        todays_weather = data["weather"]["days_weather"][0]
         todays_weather_widget = WeatherWidget([todays_weather])
         todays_weather_y = 50
 
@@ -50,12 +50,12 @@ class Screen:
         todays_weather_x = date_time_x + date_time_widget.width() + spacing
         todays_weather_widget.draw(Pen(image, (todays_weather_x, todays_weather_y)))
 
-        rain_hour_widget = RainHourWidget(data["rain_intensity_by_datetime"])
+        rain_hour_widget = RainHourWidget(data["weather"]["rain_intensity_by_datetime"])
         rain_hour_x = SCREEN_WIDTH / 2 - rain_hour_widget.width() / 2
         rain_hour_y = max(date_time_y + date_time_widget.height(), todays_weather_y + todays_weather_widget.height()) + spacing
         rain_hour_widget.draw(Pen(image, (rain_hour_x, rain_hour_y)))
 
-        next_days_weather = data["weather"][1:]
+        next_days_weather = data["weather"]["days_weather"][1:]
         next_days_weather_widget = WeatherWidget(next_days_weather)
         next_days_weather_x = SCREEN_WIDTH / 2 - next_days_weather_widget.width() / 2
         next_days_weather_y = rain_hour_y + rain_hour_widget.height() + spacing

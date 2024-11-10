@@ -17,6 +17,7 @@ class Data:
         self._data = {
             "weather_page_driver": weather_page_driver,
             "calj_driver": calj_driver,
+            "weather": {}
             }
         self.refresh()
 
@@ -33,8 +34,8 @@ class Data:
 
     def weather_refresh(self, data):
         data["weather_page_driver"].refresh()
-        data["weather"] = self._api_access.get_weather(data["weather_page_driver"])
-        data["rain_intensity_by_datetime"] = self._api_access.get_rain_intensity_by_datetime(data["weather_page_driver"])
+        data["weather"]["days_weather"] = self._api_access.get_weather(data["weather_page_driver"])
+        data["weather"]["rain_intensity_by_datetime"] = self._api_access.get_rain_intensity_by_datetime(data["weather_page_driver"])
 
     def zmanim_refresh(self, data):
         data["calj_driver"].refresh()
