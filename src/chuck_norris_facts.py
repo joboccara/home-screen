@@ -15,7 +15,7 @@ LIBRARY = [
     "Chuck Norris makes onions cry.",
     "Chuck Norris can kill two stones with one bird.",
     "Death had a near-Chuck-Norris experience.",
-    "Ghosts sit around the campfire and tell Chuck Norris stories."
+    "Ghosts sit around the campfire and tell Chuck Norris stories.",
     "Un jour, Chuck Norris a jeté une grenade sur une bande de malfrats : il y a eu six morts ; puis la grenade a explosé.",
     "Il n'y a plus de vie sur Mars depuis que Chuck Norris y est allé.",
     "Chuck Norris a déjà compté jusqu'à l'infini. Deux fois.",
