@@ -39,7 +39,7 @@ class Screen:
         spacing = 45
 
         todays_weather = data["weather"][0]
-        todays_weather_widget = WeatherWidget(self.api_access, [todays_weather])
+        todays_weather_widget = WeatherWidget([todays_weather])
         todays_weather_y = 50
 
         date_time_widget = DateTimeWidget(data["zmanim"])
@@ -56,7 +56,7 @@ class Screen:
         rain_hour_widget.draw(Pen(image, (rain_hour_x, rain_hour_y)))
 
         next_days_weather = data["weather"][1:]
-        next_days_weather_widget = WeatherWidget(self.api_access, next_days_weather)
+        next_days_weather_widget = WeatherWidget(next_days_weather)
         next_days_weather_x = SCREEN_WIDTH / 2 - next_days_weather_widget.width() / 2
         next_days_weather_y = rain_hour_y + rain_hour_widget.height() + spacing
         next_days_weather_widget.draw(Pen(image, (next_days_weather_x, next_days_weather_y)))

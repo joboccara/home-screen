@@ -2,7 +2,7 @@ from PIL import ImageFont
 from font_utils import FONT_LOCATION, text_height, text_width
 
 class WeatherWidget:
-    def __init__(self, api_access, next_days_weather):
+    def __init__(self, next_days_weather):
         self.next_days_weather = next_days_weather
         self.display_day_name = len(self.next_days_weather) > 1
 
