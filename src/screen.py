@@ -3,7 +3,6 @@ from chuck_norris_widget import ChuckNorrisWidget
 from date_time_widget import DateTimeWidget
 from fact_widget import FactWidget
 from weather_widget import WeatherWidget
-from today_in_history_widget import TodayInHistoryWidget
 from rain_hour_widget import RainHourWidget
 from start_screen_widget import StartScreenWidget
 from data import Data
@@ -83,12 +82,6 @@ class Screen:
         chuck_norris_width = SCREEN_WIDTH - 2 * facts_margin
         chuck_norris_widget = ChuckNorrisWidget(data["fun_facts"], chuck_norris_width)
         chuck_norris_widget.draw(Pen(image, (chuck_norris_x, chuck_norris_y)))
-
-        today_in_history_x = facts_margin
-        today_in_history_y = chuck_norris_y + chuck_norris_widget.height() + facts_spacing
-        today_in_history_width = SCREEN_WIDTH - 2 * facts_margin
-        today_in_history_widget = TodayInHistoryWidget(data["fun_facts"], today_in_history_width)
-        today_in_history_widget.draw(Pen(image, (today_in_history_x, today_in_history_y)))
 
     def _clear_image(self, image):
         image.paste(Image.new("RGB", image.size, "white"))

@@ -40,7 +40,6 @@ class FakeApiAccess:
 
     def get_fun_facts(self):
         return {
-            "today_in_history": {"year": 1440, "event": "Emperor Gratian elevates Flavius Theodosius at Sirmium to Augustus, and gives him authority over all the eastern provinces of the Roman Empire."},
             "chuck_norris": "The dinosaurs looked at Chuck Norris the wrong way once. You know what happened to them.",
             "fact": "After the Eiffel Tower was built, one person was killed during the installation of the lifts. No one was killed during the actual construction of the tower" 
         }
