@@ -5,6 +5,7 @@ from bus_times import get_buses_times
 from fun_facts import get_fun_facts
 from rain_hour_scraping import scrape_rain_hour
 from weather_scraping import scrape_weather
+from word_of_the_day import get_word_of_the_day
 from zmanim_scraping import scrape_zmanim
 
 class ApiAccess:
@@ -26,6 +27,9 @@ class ApiAccess:
 
     def get_buses_times(self):
         return get_buses_times()
+    
+    def get_word_of_the_day(self):
+        return get_word_of_the_day()
 
 class FakeApiAccess:
     def get(self, url, headers):
@@ -65,3 +69,6 @@ class FakeApiAccess:
 
     def get_buses_times(self):
         return get_buses_times()
+    
+    def get_word_of_the_day(self):
+        return get_word_of_the_day()

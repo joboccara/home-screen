@@ -5,6 +5,7 @@ from fact_widget import FactWidget
 from weather_widget import WeatherWidget
 from rain_hour_widget import RainHourWidget
 from start_screen_widget import StartScreenWidget
+from word_of_the_day_widget import WordOfTheDayWidget
 from data import Data
 from pen import Pen
 from PIL import Image
@@ -33,8 +34,6 @@ class Screen:
                     time.sleep(1)
             except:
                 time.sleep(20)
-            finally:
-                data.close()
 
     def _paint(self, image, data):
         spacing = 45
@@ -82,6 +81,11 @@ class Screen:
         chuck_norris_width = SCREEN_WIDTH - 2 * facts_margin
         chuck_norris_widget = ChuckNorrisWidget(data["fun_facts"], chuck_norris_width)
         chuck_norris_widget.draw(Pen(image, (chuck_norris_x, chuck_norris_y)))
+
+        word_of_the_day_widget = WordOfTheDayWidget(data["word_of_the_day"])
+        word_of_the_day_x = SCREEN_WIDTH / 2 - word_of_the_day_widget.width() / 2
+        word_of_the_day_y = chuck_norris_y + chuck_norris_widget.height() + facts_spacing
+        word_of_the_day_widget.draw(Pen(image, (word_of_the_day_x, word_of_the_day_y)))
 
     def _clear_image(self, image):
         image.paste(Image.new("RGB", image.size, "white"))

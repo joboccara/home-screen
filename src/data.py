@@ -9,6 +9,7 @@ class Data:
         calj_driver = build_calj_driver()
 
         self._refreshers = [
+            Refresher(timedelta(hours=1), self.word_of_the_day_refresh),
             Refresher(timedelta(minutes=10), self.weather_refresh),
             Refresher(timedelta(minutes=21), self.zmanim_refresh),
             Refresher(timedelta(hours=12), self.fun_facts_refresh),
@@ -46,6 +47,9 @@ class Data:
 
     def buses_times_refresh(self, data):
         data["buses_times"] = self._api_access.get_buses_times()
+
+    def word_of_the_day_refresh(self, data):
+        data["word_of_the_day"] = self._api_access.get_word_of_the_day()
 
 class Refresher:
     def __init__(self, period, refresh):

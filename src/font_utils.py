@@ -42,3 +42,6 @@ def wrap_text_to_lines(text, free_type_font, max_width):
     if current_line != "":
         lines.append(current_line)
     return lines
+
+def reverse_script(text):
+    return text[::-1]

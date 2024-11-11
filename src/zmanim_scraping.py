@@ -1,3 +1,4 @@
+from font_utils import reverse_script
 from selenium.webdriver.common.by import By
 
 def scrape_zmanim(calj_driver):
@@ -8,7 +9,7 @@ def scrape_zmanim(calj_driver):
         sh_start_label_span = calj_driver.find_element(By.XPATH, "//*[text() = 'allumage avant :']")
         sh_start_time = sh_start_label_span.find_element(By.XPATH, "../../../*[3]/*[1]/*[1]").text
         sh_end_time = sh_start_label_span.find_element(By.XPATH, "../../../*[3]/*[2]/*[1]").text
-        par = sh_start_label_span.find_element(By.XPATH, "../../../../../../../*[3]/*[1]/*[2]").text[::-1]
+        par = reverse_script(sh_start_label_span.find_element(By.XPATH, "../../../../../../../*[3]/*[1]/*[2]").text)
         
         result = {"tef": tef_time, "tzet": tzet_time, "sh_start": sh_start_time, "sh_end": sh_end_time, "par": par}
     except:

@@ -1,6 +1,6 @@
 from PIL import ImageFont
 from datetime import datetime
-from font_utils import FONT_LOCATION, REVERSE_FONT_LOCATION, text_height, text_size, text_width
+from font_utils import FONT_LOCATION, REVERSE_FONT_LOCATION, reverse_script, text_height, text_size, text_width
 
 class DateTimeWidget:
     def __init__(self, zmanim):
@@ -28,12 +28,12 @@ class DateTimeWidget:
         date_y = self.time_height + self.SPACING
         pen.write((time_x, date_y), self.date_string, self.date_font, center_x=self.time_width)
 
-        TEF_LABEL = "תפ׳ :"[::-1]
+        TEF_LABEL = reverse_script("תפ׳ :")
         tef_time_x = time_x + self.time_width / 2 - self._value_label_width(self.zmanim["tef"], TEF_LABEL) / 2
         tef_time_y = date_y + self.date_height + self.SPACING
         self._draw_value_label(pen, (tef_time_x, tef_time_y), self.zmanim["tef"], TEF_LABEL)
 
-        TZET_LABEL = "צ׳׳ה :"[::-1]
+        TZET_LABEL = reverse_script("צ׳׳ה :")
         tzet_time_x = time_x + self.time_width / 2 - self._value_label_width(self.zmanim["tzet"], TZET_LABEL) / 2
         tzet_time_y = tef_time_y + text_height(self.zmanim["tef"], self.ZMANIM_VALUE_FONT) + self.SPACING
         self._draw_value_label(pen, (tzet_time_x, tzet_time_y), self.zmanim["tzet"], TZET_LABEL)
