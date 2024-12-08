@@ -21,19 +21,19 @@ def _get_buses_times(line_number, direction_ref, direction_name, bus_stop_refere
     response = json.loads(requests.get(url, headers={"apiKey": os.getenv("PRIM_API_KEY")}).text)
     bus_stop_passages = response["Siri"]["ServiceDelivery"]["StopMonitoringDelivery"][0]["MonitoredStopVisit"]
     if bus_stop_passages == []:
-        first_time_label, second_time_label = "Service", "Finished"
+        first_time_label, second_time_label = "-", "-"
         directions = [direction_name]
     else:
-        line_passages = list(filter(lambda passage: passage["MonitoredVehicleJourney"]["DirectionName"][0]["value"] == direction_ref, bus_stop_passages))
+        line_passages = list(filter(lambda passage: passage["MonitoredVehicleJourney"]["DirectionName"][0]["value"] in [direction_ref, direction_name], bus_stop_passages))
         if line_passages == []:
-            first_time_label, second_time_label = "Service", "Finished"
+            first_time_label, second_time_label = "-", "-"
             directions = [direction_name]
         else:
             times = list(map(lambda passage: passage["MonitoredVehicleJourney"]["MonitoredCall"]["ExpectedDepartureTime"], line_passages))
             directions = list(map(lambda passage: passage["MonitoredVehicleJourney"]["MonitoredCall"]["DestinationDisplay"][0]["value"], line_passages))
             first_time_label = _time_s_to_minutes_label(times[0])
             if len(line_passages) == 1:
-                second_time_label = "Last bus"
+                second_time_label = "-"
             else:
                 second_time_label = _time_s_to_minutes_label(times[1])
     return {
