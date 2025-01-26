@@ -1,5 +1,3 @@
 .venv/
 __pycache__
-src/test_script.py
-src/rpi_launch.py
 dependencies/
