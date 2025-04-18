@@ -1,6 +1,7 @@
 from buses_times_widget import BusesTimesWidget
 from date_time_widget import DateTimeWidget
 from weather_widget import WeatherWidget
+from omer_widget import OmerWidget
 from rain_hour_widget import RainHourWidget
 from start_screen_widget import StartScreenWidget
 from data import Data
@@ -62,6 +63,13 @@ class Screen:
         buses_times_x = SCREEN_WIDTH / 2 - buses_times_widget.width() / 2
         buses_times_y = next_days_weather_y + next_days_weather_widget.height() + spacing
         buses_times_widget.draw(Pen(image, (buses_times_x, buses_times_y)))
+
+        if data["zmanim"]["omer_day"] != "":
+            omer_extra_spacing = 60
+            omer_widget = OmerWidget(data["zmanim"]["omer_day"])
+            omer_x = SCREEN_WIDTH / 2 - omer_widget.width() / 2
+            omer_y = buses_times_y + buses_times_widget.height() + spacing + omer_extra_spacing
+            omer_widget.draw(Pen(image, (omer_x, omer_y)))
 
     def _clear_image(self, image):
         image.paste(Image.new("RGB", image.size, "white"))
