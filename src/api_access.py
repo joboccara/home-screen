@@ -2,10 +2,8 @@ from datetime import datetime
 import json
 import requests
 from bus_times import get_buses_times
-from fun_facts import get_fun_facts
 from rain_hour_scraping import scrape_rain_hour
 from weather_scraping import scrape_weather
-from word_of_the_day import get_word_of_the_day
 from zmanim_scraping import scrape_zmanim
 
 class ApiAccess:
@@ -13,9 +11,6 @@ class ApiAccess:
         response = requests.get(url, headers)
         return json.loads(response.text)
 
-    def get_fun_facts(self):
-        return get_fun_facts()
-    
     def get_rain_intensity_by_datetime(self, driver):
         return scrape_rain_hour(driver)
 
@@ -28,9 +23,6 @@ class ApiAccess:
     def get_buses_times(self):
         return get_buses_times()
     
-    def get_word_of_the_day(self):
-        return get_word_of_the_day()
-
 class FakeApiAccess:
     def get(self, url, headers):
         if url.startswith("https://api.api-ninjas.com/v1/historicalevents"):
@@ -41,12 +33,6 @@ class FakeApiAccess:
             return [ { "fact": "After the Eiffel Tower was built, one person was killed during the installation of the lifts. No one was killed during the actual construction of the tower" } ]
         else:
             return {}
-
-    def get_fun_facts(self):
-        return {
-            "chuck_norris": "The dinosaurs looked at Chuck Norris the wrong way once. You know what happened to them.",
-            "fact": "After the Eiffel Tower was built, one person was killed during the installation of the lifts. No one was killed during the actual construction of the tower" 
-        }
 
     def get_rain_intensity_by_datetime(self, driver):
         return {
@@ -69,6 +55,3 @@ class FakeApiAccess:
 
     def get_buses_times(self):
         return get_buses_times()
-    
-    def get_word_of_the_day(self):
-        return get_word_of_the_day()

@@ -1,11 +1,8 @@
 from buses_times_widget import BusesTimesWidget
-from chuck_norris_widget import ChuckNorrisWidget
 from date_time_widget import DateTimeWidget
-from fact_widget import FactWidget
 from weather_widget import WeatherWidget
 from rain_hour_widget import RainHourWidget
 from start_screen_widget import StartScreenWidget
-from word_of_the_day_widget import WordOfTheDayWidget
 from data import Data
 from pen import Pen
 from PIL import Image
@@ -65,27 +62,6 @@ class Screen:
         buses_times_x = SCREEN_WIDTH / 2 - buses_times_widget.width() / 2
         buses_times_y = next_days_weather_y + next_days_weather_widget.height() + spacing
         buses_times_widget.draw(Pen(image, (buses_times_x, buses_times_y)))
-
-        middle_spacing = 60
-        facts_margin = 10
-        facts_spacing = 30
-
-        fact_x = facts_margin
-        fact_y = buses_times_y + buses_times_widget.height() + middle_spacing
-        fact_width = SCREEN_WIDTH - 2 * facts_margin
-        fact_widget = FactWidget(data["fun_facts"], fact_width)
-        fact_widget.draw(Pen(image, (fact_x, fact_y)))
-
-        chuck_norris_x = facts_margin
-        chuck_norris_y = fact_y + fact_widget.height() + facts_spacing
-        chuck_norris_width = SCREEN_WIDTH - 2 * facts_margin
-        chuck_norris_widget = ChuckNorrisWidget(data["fun_facts"], chuck_norris_width)
-        chuck_norris_widget.draw(Pen(image, (chuck_norris_x, chuck_norris_y)))
-
-        word_of_the_day_widget = WordOfTheDayWidget(data["word_of_the_day"])
-        word_of_the_day_x = SCREEN_WIDTH / 2 - word_of_the_day_widget.width() / 2
-        word_of_the_day_y = chuck_norris_y + chuck_norris_widget.height() + facts_spacing
-        word_of_the_day_widget.draw(Pen(image, (word_of_the_day_x, word_of_the_day_y)))
 
     def _clear_image(self, image):
         image.paste(Image.new("RGB", image.size, "white"))
