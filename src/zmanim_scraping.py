@@ -6,6 +6,7 @@ def scrape_zmanim(calj_driver):
     try:
         tef_time = _find_time_from_label(calj_driver, "début tefilin")
         tzet_time = _find_time_from_label(calj_driver, "tzeit hacokhavim")
+        plag_time = _find_time_from_label(calj_driver, 'plag haminḥa (GR"A)')
 
         sh_start_label_span = calj_driver.find_element(By.XPATH, "//*[text() = 'allumage avant :']")
 
@@ -19,6 +20,7 @@ def scrape_zmanim(calj_driver):
 
         result = {"tef": tef_time,
                   "tzet": tzet_time,
+                  "plag": plag_time,
                   "sh_start": sh_start_time,
                   "sh_end": sh_end_time,
                   "par": par,

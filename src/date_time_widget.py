@@ -1,5 +1,5 @@
 from PIL import ImageFont
-from datetime import datetime
+from datetime import date, datetime
 from font_utils import FONT_LOCATION, REVERSE_FONT_LOCATION, reverse_script, text_height, text_size, text_width
 
 class DateTimeWidget:
@@ -27,16 +27,11 @@ class DateTimeWidget:
 
         date_y = self.time_height + self.SPACING
         pen.write((time_x, date_y), self.date_string, self.date_font, center_x=self.time_width)
+        date_bottom = date_y + self.date_height + self.SPACING
 
-        TEF_LABEL = reverse_script("תפ׳ :")
-        tef_time_x = time_x + self.time_width / 2 - self._value_label_width(self.zmanim["tef"], TEF_LABEL) / 2
-        tef_time_y = date_y + self.date_height + self.SPACING
-        self._draw_value_label(pen, (tef_time_x, tef_time_y), self.zmanim["tef"], TEF_LABEL)
-
-        TZET_LABEL = reverse_script("צ׳׳ה :")
-        tzet_time_x = time_x + self.time_width / 2 - self._value_label_width(self.zmanim["tzet"], TZET_LABEL) / 2
-        tzet_time_y = tef_time_y + text_height(self.zmanim["tef"], self.ZMANIM_VALUE_FONT) + self.SPACING
-        self._draw_value_label(pen, (tzet_time_x, tzet_time_y), self.zmanim["tzet"], TZET_LABEL)
+        tef_bottom = self._draw_time(pen, "תפ׳ :", self.zmanim["tef"], time_x, date_bottom)
+        plag_bottom = self._draw_time(pen, "פלג :", self.zmanim["plag"], time_x, tef_bottom) if self._should_display_plag() else tef_bottom
+        tzet_bottom = self._draw_time(pen, "צ׳׳ה :", self.zmanim["tzet"], time_x, plag_bottom)
 
         sh_end_width = text_width(self.zmanim["sh_end"], self.ZMANIM_VALUE_FONT)
         par_width = text_width(self.zmanim["par"], self.ZMANIM_LABEL_FONT)
@@ -45,12 +40,19 @@ class DateTimeWidget:
                    + par_width + self.PAR_TIME_SPACING \
                    + sh_start_width
         sh_end_x = time_x + self.time_width / 2 - sh_width / 2
-        sh_end_y = tzet_time_y + text_height(self.zmanim["tzet"], self.ZMANIM_VALUE_FONT) + self.SPACING
+        sh_end_y = tzet_bottom
         pen.write((sh_end_x, sh_end_y), self.zmanim["sh_end"], self.ZMANIM_VALUE_FONT)
         par_x = sh_end_x + sh_end_width + self.PAR_TIME_SPACING
         pen.write((par_x, sh_end_y), self.zmanim["par"], self.ZMANIM_LABEL_FONT)
         sh_start_x = par_x + par_width + self.PAR_TIME_SPACING
         pen.write((sh_start_x, sh_end_y), self.zmanim["sh_start"], self.ZMANIM_VALUE_FONT)
+
+    def _draw_time(self, pen, label, value, offset_x, offset_y):
+        reversed_label = reverse_script(label)
+        tzet_time_x = offset_x + self.time_width / 2 - self._value_label_width(value, reversed_label) / 2
+        self._draw_value_label(pen, (tzet_time_x, offset_y), value, reversed_label)
+        bottom = offset_y + text_height(value, self.ZMANIM_VALUE_FONT) + self.SPACING
+        return bottom
 
     def _value_label_width(self, value, label):
         return text_width(value, self.ZMANIM_VALUE_FONT) + self.LABEL_TIME_SPACING + text_width(label, self.ZMANIM_LABEL_FONT)
@@ -64,6 +66,11 @@ class DateTimeWidget:
         return max(self.time_width, self.date_width)
 
     def height(self):
+        number_of_times = 3 + (1 if self._should_display_plag() else 0)
         return self.time_height + self.SPACING \
             + self.date_height + self.SPACING \
-            + 3 * (text_height(self.zmanim["tef"], self.ZMANIM_VALUE_FONT) + self.SPACING) - self.SPACING
+            + number_of_times * (text_height(self.zmanim["tef"], self.ZMANIM_VALUE_FONT) + self.SPACING) - self.SPACING
+
+    def _should_display_plag(self):
+        FRIDAY = 4
+        return date.today().weekday() == FRIDAY
