@@ -31,7 +31,6 @@ class Screen:
             try:
                 data = Data(self.api_access)
                 while(True):
-                    1/0
                     self._clear_image(self.image)
                     self._paint(self.image, data.get())
                     display_image(self.image)
