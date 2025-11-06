@@ -5,6 +5,7 @@ from omer_widget import OmerWidget
 from rain_hour_widget import RainHourWidget
 from start_screen_widget import StartScreenWidget
 from data import Data
+from app_logging import logger
 from pen import Pen
 from PIL import Image
 import time
@@ -18,19 +19,26 @@ class Screen:
         self.api_access = api_access
 
     def display(self, display_image):
-        self._clear_image(self.image)
-        self._paint_start_screen(self.image)
-        display_image(self.image)
+        try:
+            self._clear_image(self.image)
+            self._paint_start_screen(self.image)
+            display_image(self.image)
+        except Exception as e:
+            logger.error("Initial display failed", exc_info=e)
+            raise
+
         while(True):
             try:
                 data = Data(self.api_access)
                 while(True):
+                    1/0
                     self._clear_image(self.image)
                     self._paint(self.image, data.get())
                     display_image(self.image)
                     data.refresh()
                     time.sleep(1)
-            except:
+            except Exception as e:
+                logger.error("Screen refresh failed", exc_info=e)
                 time.sleep(20)
 
     def _paint(self, image, data):

@@ -1,5 +1,6 @@
 from datetime import datetime
 from datetime import timedelta
+from app_logging import logger
 from webdrivers import build_calj_driver, build_weather_page_driver
 
 class Data:
@@ -52,6 +53,6 @@ class Refresher:
     def refresh(self, data):
         if self._last_updated is None or datetime.now() > self._last_updated + self._period:
             self._last_updated = datetime.now()
-            print(datetime.now(), self._refresh.__name__)
+            logger.info(self._refresh.__name__)
             self._refresh(data)
 
