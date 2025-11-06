@@ -18,7 +18,7 @@ class DatadogLogHandler(logging.Handler):
         log_entry = HTTPLogItem(
             message=self.format(record),
             ddsource="python",
-            service="my-app",
+            service="homescreen",
             status=record.levelname.lower(),
         )
         try:
